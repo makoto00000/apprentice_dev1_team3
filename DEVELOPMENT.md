@@ -23,8 +23,9 @@ $ docker-compose up  -d
 $  docker exec -it ruby-container bash
 ```
 ```shell
-コンテナ内$  mysql -h mysql-container -u root -D demo -proot
+コンテナ内$  mysql -h mysql-container -u root -D demo -p
 ```
+
 
 ## 終了時
 
