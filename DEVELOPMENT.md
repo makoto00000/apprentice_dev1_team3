@@ -20,7 +20,7 @@ $ docker-compose up  -d
 
 ## Mysqlへログインするとき
 ```shell
-$  docker-compose exec -it app bash
+$  docker exec -it ruby-container bash
 ```
 ```shell
 コンテナ内$  mysql -h mysql-container -u root -D demo -proot
