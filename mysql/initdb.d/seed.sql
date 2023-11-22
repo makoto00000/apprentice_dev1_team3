@@ -19,6 +19,7 @@ CREATE TABLE receipes (
     id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL,
     point TEXT,
+    image TEXT NOT NULL,
     user_id BIGINT NOT NULL,
     genre_id BIGINT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
@@ -72,9 +73,9 @@ INSERT INTO genres (id, name, category) VALUES
 (1, 'Cocktails', 'Beverage'),
 (2, 'Wine Pairings', 'Food');
 
-INSERT INTO receipes (id, name, point, user_id, genre_id) VALUES
-(1, 'Classic Whiskey Sour', 'A timeless classic', 1, 1),
-(2, 'Red Wine and Cheese Guide', 'Perfect for wine lovers', 2, 2);
+INSERT INTO receipes (id, name, point, image, user_id, genre_id) VALUES
+(1, 'Classic Whiskey Sour', 'A timeless classic', 'Whiskey.jpg',  1, 1),
+(2, 'Red Wine and Cheese Guide', 'Perfect for wine lovers', 'Wine.jpg', 2, 2);
 
 INSERT INTO reviews (id, content, image, user_id, receipe_id) VALUES
 (1, 'Incredible whiskey cocktail recipe.', 'review_whiskey.jpg', 1, 1),
