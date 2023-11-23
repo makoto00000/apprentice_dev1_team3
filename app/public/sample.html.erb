@@ -12,13 +12,8 @@ res = Net::HTTP.start(url.host, url.port) {|http|
 data = JSON.parse(res.body)
 %>
 
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <title>RIQ+RECIPE</title>
-  </head>
-  <body>
+<%= ERB.new(File.read('./public/header.html.erb')).result(binding) %>
+
     <h1>ジャンル一覧</h1>
     <table>
       <tbody>
