@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-<h1>ジャンル登録</h1>
-  <form action="/api" method="post">
-    <label for="name">ジャンル名</label>
-    <input type="text" name="name">
-    <input type="submit" value="送信">
-  </form>
-  <a href="/sample">ジャンル一覧へ</a>
-
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RIQ+RECIPE</title>
+  </head>
+  <body>
+    <h1>ジャンル登録</h1>
+      <form action="/api/genres" method="post">
+        <label for="name">ジャンル名</label>
+        <input type="text" id="name" name="name" autocomplete="off">
+        <br>
+        <label for="category">カテゴリ名</label>
+        <input type="text" id="category" name="category" autocomplete="off">
+        <input type="submit" value="送信">
+      </form>
+      <a href="/sample">ジャンル一覧へ</a>
+      <br>
+      <a href="/login">ログイン</a>
+      
+  </body>
 </html>
