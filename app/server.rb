@@ -23,14 +23,13 @@ server.config[:MimeTypes][".html.erb"] = "text/html"
 sessions = {}
 
 # ルーティング設定
-
 server.mount_proc("/sample") { |req, res| 
-    template = ERB.new( File.read('sample.erb') )
+    template = ERB.new( File.read('./public/sample.html.erb') )
     res.body << template.result( binding )
 }
 
 server.mount_proc("/login") { |req, res| 
-    template = ERB.new( File.read('login.erb') )
+    template = ERB.new( File.read('./public/login.html.erb') )
     res.body << template.result( binding )
 }
 

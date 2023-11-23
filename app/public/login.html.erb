@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LIQ*RECIPE</title>
-</head>
-<body>
+<%= ERB.new(File.read('./public/header.html.erb')).result(binding) %>
+
   <h1>ログイン</h1>
       <div id="login_msg">
       <div id="user_id"></div>
@@ -25,13 +19,13 @@
     <a href="/">トップページへ</a>
     <div id="loginStatus"></div>
 
-  <script src="./module/auth.js"></script>
+  <script src="/public/module/auth.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       const isLoggedIn = await Auth.isLoggedIn();
 
       if (isLoggedIn) {
-        const response = await fetch('http://localhost:8000/api/get_current_user')
+        const response = await fetch('/api/get_current_user')
         const data = await response.json()
         user = JSON.stringify(data, null, 2)
         userdata = JSON.parse(user)
