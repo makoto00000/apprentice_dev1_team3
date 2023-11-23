@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIQ*RECIPE</title>
+</head>
+<body>
+  <h1>ログイン</h1>
+      <div id="login_msg">
+      <div id="user_id"></div>
+      <div id="user_name"></div>
+      <div id="user_email"></div>
+      <div id="user_password"></div>
+      <div id="user_image"></div>
+    </div>
+      <form action="/api/login" method="post" id="login_form">
+        <label for="email">メールアドレス</label>
+        <input type="text" id="email" name="email" value="john@example.com" autocomplete="off">
+        <br>
+        <label for="category">パスワード</label>
+        <input type="text" id="password" name="password" value="password123" autocomplete="off">
+        <input type="submit" value="送信">
+      </form>
+    <a href="/">トップページへ</a>
+    <div id="loginStatus"></div>
+
+  <script src="./module/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const isLoggedIn = await Auth.isLoggedIn();
+
+      if (isLoggedIn) {
+        const response = await fetch('http://localhost:8000/api/get_current_user')
+        const data = await response.json()
+        user = JSON.stringify(data, null, 2)
+        userdata = JSON.parse(user)
+        document.getElementById('user_id').textContent = "ユーザーID:" + userdata.id;
+        document.getElementById('user_name').textContent = "ユーザーネーム:" + userdata.name;
+        document.getElementById('user_email').textContent = "メールアドレス:" + userdata.email;
+        document.getElementById('user_password').textContent = "パスワード:" + userdata.password;
+        document.getElementById('user_image').textContent = "ユーザーイメージ:" + userdata.image;
+        document.body.innerHTML += `
+        <button onclick="Auth.logoutUser()">Logout</button>
+        `;
+        document.getElementById("login_form").remove();
+      } else {
+
+      }
+    });
+  </script>
+</body>
+</html>
