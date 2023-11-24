@@ -4,11 +4,19 @@
 [環境構築方法](./DEVELOPMENT.md)
 
 ## ディレクトリ、ファイルの命名について
-### moduleディレクトリ
-JavaScriptファイルを格納
+### module
+JavaScriptファイルを保存
 
-### ファイル名
-〇〇.erbとし、server.rbに、以下のように記述しルーティングを行う。
+### image
+画像ファイルを保存
+
+### css
+CSSファイルを保存。`style.css`に各ページのcssをimportする。
+各ページのCSSは`pages`配下に追加する。
+
+
+## ファイル名について
+`〇〇.html.erb`とし、`server.rb`に、以下のように記述しルーティングを行う。
 例）sample.erbと命名した場合
 ```ruby
 server.mount_proc("/sample") { |req, res| 
