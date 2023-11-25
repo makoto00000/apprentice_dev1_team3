@@ -12,7 +12,7 @@ res = Net::HTTP.start(url.host, url.port) {|http|
 data = JSON.parse(res.body)
 %>
 
-<%= ERB.new(File.read('./public/header.html.erb')).result(binding) %>
+<%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_header_out').result(binding) %>
 
     <h1>ジャンル一覧</h1>
     <table>
@@ -31,5 +31,5 @@ data = JSON.parse(res.body)
     </table>
 
     <a href="/">トップページ</a>
-  </body>
-</html>
+
+<%= ERB.new(File.read('./public/components/footer.html.erb'), nil, nil, '_footer_out').result(binding) %>
