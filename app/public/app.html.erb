@@ -14,5 +14,5 @@
     <br>
     <a href="/login">ログイン</a>
 </main>
-</body>
-</html>
+
+<%= ERB.new(File.read('./public/footer.html.erb')).result(binding) %>

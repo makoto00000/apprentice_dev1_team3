@@ -3,7 +3,7 @@
 ## 開発環境について
 [環境構築方法](./DEVELOPMENT.md)
 
-## ディレクトリ、ファイルの命名について
+## ディレクトリ
 ### module
 JavaScriptファイルを保存
 
@@ -13,7 +13,6 @@ JavaScriptファイルを保存
 ### css
 CSSファイルを保存。`style.css`に各ページのcssをimportする。
 各ページのCSSは`pages`配下に追加する。
-
 
 ## ファイル名について
 `〇〇.html.erb`とし、`server.rb`に、以下のように記述しルーティングを行う。
@@ -26,6 +25,18 @@ server.mount_proc("/sample") { |req, res|
 ```
 この場合、aタグでのリンクも、`<a href="/sample>サンプルページ</a>"`となる。
 
+
+## ヘッダーとフッターのコンポーネント化
+`public/components/`に、`header.html.erb`、`footer.html.erb`を追加。
+各ページで、これらのファイルを読み込み、`main`タグ内に書いていく。
+```ruby
+<%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_header_out').result(binding) %>
+<main>
+# ここに記述
+</main>
+<%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_header_out').result(binding) %>
+```
+JavaScriptを読み込む際は、`footer.html.erb`にscriptタグを記載。
 
 ## ログイン機能について
 webrickサーバー（server.rb）に以下のエンドポイントを設置
