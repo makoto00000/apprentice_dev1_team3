@@ -137,6 +137,7 @@
   width: 84px;
   padding: 6px;
   border-radius: 50%;
+  display: none;
 }
 
 .user_icon img {
