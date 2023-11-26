@@ -33,6 +33,11 @@
 .navigation nav ul li {
   margin-right: 50px;
   cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+
+.navigation nav ul li:hover {
+  transform: scale(1.2);
 }
 
 .navigation nav ul li img {
@@ -42,6 +47,21 @@
 
 .navigation nav ul li:last-child {
   margin-right: 0;
+}
+
+.dli-chevron-down {
+  display: inline-block;
+  vertical-align: baseline;
+  color: #333;
+  line-height: 1;
+  width: 0.8em;
+  height: 0.8em;
+  border: 0.1em solid currentColor;
+  border-left: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+  transform: translateY(-25%) rotate(135deg);
+  margin-left: 5px;
 }
 
 .search_field {
@@ -56,6 +76,10 @@
   height: 40px;
   caret-color: #8A8A8A;
   padding: 0 30px;
+}
+
+.search_field input:focus {
+  outline: #8A8A8A 2px solid;
 }
 
 .search_field .place_holder {
@@ -80,6 +104,11 @@
 .login_button {
   width: 100px;
   height: 35px;
+  transition: all .3s ease-in-out;
+}
+
+.login_button:hover {
+  transform: scale(1.1);
 }
 
 .login_button button {
@@ -99,9 +128,11 @@
   margin-right: 5px;
 }
 
+
+/* ホバーメニューのスタイル */
 .hover_menu {
   width: 100%;
-  padding: 50px 0;
+  padding: 50px 200px;
   opacity: 0;
   visibility: hidden;
   transition: all .3s ease-out;
@@ -111,7 +142,6 @@
 
 .categories {
   margin: 0 auto;
-  width: 80%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -119,9 +149,9 @@
 }
 
 .category {
-  width: calc((1110px - 360px) / 5);
+  width: 200px;
   margin-bottom: 30px;
-  margin-right: 90px;
+  /* margin-right: 90px; */
   display: flex;
   align-items: center;
   cursor: pointer;
