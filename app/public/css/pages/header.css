@@ -64,6 +64,10 @@
   margin-left: 5px;
 }
 
+.write_recipe_link {
+  display: none;
+}
+
 .search_field {
   margin: 0 50px;
   position: relative;
@@ -105,6 +109,7 @@
   width: 100px;
   height: 35px;
   transition: all .3s ease-in-out;
+  display: none;
 }
 
 .login_button:hover {
@@ -128,6 +133,15 @@
   margin-right: 5px;
 }
 
+.user_icon {
+  width: 84px;
+  padding: 6px;
+  border-radius: 50%;
+}
+
+.user_icon img {
+  width: 100%;
+}
 
 /* ホバーメニューのスタイル */
 .hover_menu {

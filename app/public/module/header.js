@@ -13,9 +13,9 @@ searchInput.addEventListener('blur', function() {
 
 
 const hoverKinds = document.getElementById('kinds')
-const hoverMenuKinds = document.getElementById('kinds_hover')
+const hoverMenuKinds = document.getElementById('kinds_hover_open')
 const hoverTastes = document.getElementById('tastes')
-const hoverMenuTastes = document.getElementById('tastes_hover')
+const hoverMenuTastes = document.getElementById('tastes_hover_open')
 hoverMenuKinds.addEventListener ("mouseover", function() {
   hoverKinds.style.opacity = "1"
   hoverKinds.style.visibility = "visible"
@@ -50,3 +50,27 @@ hoverTastes.addEventListener ("mouseout", function() {
   hoverTastes.style.opacity = "0"
   hoverTastes.style.visibility = "hidden"
 })
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const isLoggedIn = await Auth.isLoggedIn();
+  writeRecipeLink = document.getElementById('write_recipe_link');
+  loginButton = document.getElementById('login_button');
+  userIcon = document.getElementById('user_icon');
+  userIconImage = document.getElementById('user_icon_image');
+
+  if (isLoggedIn) {
+    const response = await fetch('/api/get_current_user')
+    const data = await response.json()
+    user = JSON.stringify(data, null, 2)
+    userdata = JSON.parse(user)
+    writeRecipeLink.style.display = "block";
+    userIcon.style.display = "block";
+    loginButton.style.display = "none";
+    UserIconImage.src = `"./public/image/default_icons/${userdata.image}"`;
+  } else {
+    userIcon.style.display = "none";
+    loginButton.style.display = "block";
+  }
+});
+
+// TODO: データベースに画像URLを保存して表示テスト

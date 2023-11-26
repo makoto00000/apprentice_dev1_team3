@@ -18,8 +18,9 @@
       <div class="navigation">
         <nav>
           <ul>
-            <li id="kinds_hover"><img src="./public/image/cocktail_icon.png" alt="">お酒の種類から探す<span class="dli-chevron-down"></span></li>
-            <li id="tastes_hover"><img src="./public/image/drink_icon.png" alt="">お酒の味から探す<span class="dli-chevron-down"></li>
+            <li id="write_recipe_link" class="write_recipe_link"><a href="/posts"><img src="./public/image/write_recipe_icon.png" alt="">レシピを投稿する</a></li>
+            <li id="kinds_hover_open"><img src="./public/image/cocktail_icon.png" alt="">お酒の種類から探す<span class="dli-chevron-down"></span></li>
+            <li id="tastes_hover_open"><img src="./public/image/drink_icon.png" alt="">お酒の味から探す<span class="dli-chevron-down"></li>
           </ul>
         </nav>
       </div>
@@ -27,14 +28,17 @@
         <input type="text" id="search_recipe_input">
         <div class="place_holder" id="place_holder"><img src="./public/image/search_icon.png" alt=""><a>レシピを検索</a></div>
       </div>
-      <div class="login_button">
-        <button>
+      <div class="login_button" id="login_button">
+        <button onclick="location.href='/login'">
           <img src="./public/image/login_icon.png" alt="">
           <a>ログイン</a>
         </button>
       </div>
+      <div class="user_icon" id="user_icon" onclick="Auth.logoutUser()">
+        <img src="./public/image/default_icons/wolf_man.png" alt="" id="user_icon_image">
+      </div>
     </div>
-  </header>
+  </header> 
   <div class="hover_menu" id="kinds">
     <div class="categories">
       <div class="category"><img src="./public/image/wine_icon.png" alt=""><a>ワイン</a></div>
