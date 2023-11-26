@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     writeRecipeLink.style.display = "block";
     userIcon.style.display = "block";
     loginButton.style.display = "none";
-    UserIconImage.src = `"./public/image/default_icons/${userdata.image}"`;
+    userIconImage.src = `./public/image/default_icons/${userdata.image}`;
   } else {
     userIcon.style.display = "none";
     loginButton.style.display = "block";
