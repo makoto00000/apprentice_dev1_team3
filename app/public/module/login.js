@@ -1,21 +1,33 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const isLoggedIn = await Auth.isLoggedIn();
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('login_form');
+  const loginMessage = document.getElementById('login_message');
 
-  if (isLoggedIn) {
-    const response = await fetch('/api/get_current_user')
-    const data = await response.json()
-    user = JSON.stringify(data, null, 2)
-    userdata = JSON.parse(user)
-    document.getElementById('user_id').textContent = "ユーザーID:" + userdata.id;
-    document.getElementById('user_name').textContent = "ユーザーネーム:" + userdata.name;
-    document.getElementById('user_email').textContent = "メールアドレス:" + userdata.email;
-    document.getElementById('user_password').textContent = "パスワード:" + userdata.password;
-    document.getElementById('user_image').textContent = "ユーザーイメージ:" + userdata.image;
-    document.body.innerHTML += `
-    <button onclick="Auth.logoutUser()">Logout</button>
-    `;
-    document.getElementById("login_form").remove();
-  } else {
+  form.addEventListener('submit', async function(event) {
+    event.stopPropagation();
+    event.preventDefault();
 
-  }
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        body: formData
+      });
+      
+      
+      if (!response.ok) {
+        const responseData = await response.json();
+        data = JSON.parse(JSON.stringify(responseData, null, 2))
+        loginMessage.textContent = data.message;
+        throw new Error('Network response was not ok');
+      } else {
+        window.location.href = "/sample";
+      }
+
+
+      // レスポンスを表示または処理する
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  });
 });

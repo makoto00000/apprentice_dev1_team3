@@ -105,18 +105,18 @@
   display: block;
 }
 
-.login_button {
+.header_login_button {
   width: 100px;
   height: 35px;
   transition: all .3s ease-in-out;
   display: none;
 }
 
-.login_button:hover {
+.header_login_button:hover {
   transform: scale(1.1);
 }
 
-.login_button button {
+.header_login_button button {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -128,7 +128,7 @@
   border-radius: 5px;
 }
 
-.login_button button img {
+.header_login_button button img {
   width: 20px;
   margin-right: 5px;
 }
