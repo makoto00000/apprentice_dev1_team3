@@ -33,6 +33,10 @@
   letter-spacing: 2px;
 }
 
+.login_email_input:focus, .login_password_input:focus {
+  outline: #8A8A8A 2px solid;
+}
+
 .login_form {
   margin-bottom: 50px;
 }
