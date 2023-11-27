@@ -1,24 +1,27 @@
 <%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_footer_out').result(binding) %>
 
-<main>
-<h1>ログイン</h1>
-    <div id="login_msg">
-    <div id="user_id"></div>
-    <div id="user_name"></div>
-    <div id="user_email"></div>
-    <div id="user_password"></div>
-    <div id="user_image"></div>
+<main class="login_container">
+<h1 class="login_title">ログイン</h1>
+
   </div>
-    <form action="/api/login" method="post" id="login_form">
-      <label for="email">メールアドレス</label>
-      <input type="text" id="email" name="email" value="john@example.com" autocomplete="off">
-      <br>
-      <label for="category">パスワード</label>
-      <input type="text" id="password" name="password" value="password123" autocomplete="off">
-      <input type="submit" value="送信">
+    <form action="/api/login" method="post" id="login_form" class="login_form">
+      <div class="login_email_container">
+        <label class="login_email_label" for="email">メールアドレス</label>
+        <input class="login_email_input" type="email" id="email" name="email" autocomplete="off" placeholder="mail@liq-recipe.com">
+      </div>
+      <div class="login_password_container">
+        <label class="login_password_label" for="password">パスワード</label>
+        <input class="login_password_input" type="password" id="password" name="password"  autocomplete="off">
+      </div>
+      <div class="login_message" id="login_message"></div>
+      <div class="login_button_container">
+      <input class="login_button" type="submit" value="ログイン">
+      </div>
     </form>
-  <a href="/">トップページへ</a>
-  <div id="loginStatus"></div>
+  <p class="login_signup_link_text">
+  まだアカウントをお持ちでない場合  <a class="login_signup_link" href="/signup">新規作成</a>
+  </p> 
+    
 </main>
 
 <%= ERB.new(File.read('./public/components/footer.html.erb'), nil, nil, '_footer_out').result(binding) %>

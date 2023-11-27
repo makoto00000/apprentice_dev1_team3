@@ -58,7 +58,7 @@ server.mount_proc("/api/login") { |req, res|
     else
         # ログイン失敗
         res.status = 401
-        res.body = 'Login failed'
+        res.body = JSON.generate({"message": "メールアドレスまたはパスワードが間違っています"})
     end
 }
 

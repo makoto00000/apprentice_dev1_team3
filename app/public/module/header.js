@@ -54,7 +54,7 @@ hoverTastes.addEventListener ("mouseout", function() {
 document.addEventListener('DOMContentLoaded', async () => {
   const isLoggedIn = await Auth.isLoggedIn();
   writeRecipeLink = document.getElementById('write_recipe_link');
-  loginButton = document.getElementById('login_button');
+  loginButton = document.getElementById('header_login_button');
   userIcon = document.getElementById('user_icon');
   userIconImage = document.getElementById('user_icon_image');
 

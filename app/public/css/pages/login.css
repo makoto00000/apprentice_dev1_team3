@@ -1,0 +1,72 @@
+.login_container {
+  width: 600px;
+  max-width: 600px;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.login_title {
+  font-size: 50px;
+  font-weight: bold;
+  letter-spacing: 10px;
+  margin-bottom: 100px;
+}
+
+.login_email_label, .login_password_label {
+  display: block;
+  font-size: 22px;
+  letter-spacing: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.login_email_input, .login_password_input {
+  display: block;
+  background: #EDEDED;
+  margin: 0 auto;
+  border-radius: 40px;
+  width: 600px;
+  height: 60px;
+  font-size: 20px;
+  padding: 0 30px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.login_form {
+  margin-bottom: 50px;
+}
+
+.login_email_container, .login_password_container {
+  text-align: left;
+  padding-bottom: 50px;
+}
+
+.login_message {
+  font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  color: #e82401;
+}
+
+.login_button_container {
+  width: 250px;
+  height: 70px;
+  margin: 50px auto;
+}
+
+.login_button {
+  display: block;
+  width: 250px;
+  height: 70px;
+  background: #e82401;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.login_signup_link {
+  color: #e82401;
+  font-weight: bold;
+}
