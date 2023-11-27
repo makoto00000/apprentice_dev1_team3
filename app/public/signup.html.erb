@@ -1,0 +1,29 @@
+<%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_footer_out').result(binding) %>
+
+<main class="signup_container">
+  <h1 class="signup_title">LIQ+RECIPE<br>アカウント作成</h1>
+  <form action="/api/signup" method="post" id="signup_form" class="signup_form">
+      <div class="signup_username_container">
+        <label class="signup_username_label" for="username">ユーザーネーム（必須）</label>
+        <input class="signup_username_input" type="text" id="username" name="username" autocomplete="off" required>
+      </div>
+      <div class="signup_email_container">
+        <label class="signup_email_label" for="email">メールアドレス（必須）</label>
+        <input class="signup_email_input" type="email" id="email" name="email" autocomplete="off" placeholder="mail@liq-recipe.com" required>
+      </div>
+      <div class="signup_password_container">
+        <label class="signup_password_label" for="password">パスワード（必須）</label>
+        <input class="signup_password_input" type="password" id="password" name="password"  autocomplete="off" required>
+      </div>
+      <div class="signup_password_container">
+        <label class="signup_password_label" for="password_confirm">パスワード確認（必須）</label>
+        <input class="signup_password_input" type="password" id="password_confirm" name="password_confirm"  autocomplete="off" required>
+      </div>
+      <div class="signup_message" id="signup_message"></div>
+      <div class="signup_button_container">
+      <input class="signup_button" type="submit" value="ユーザー登録">
+      </div>
+    </form>
+</main>
+
+<%= ERB.new(File.read('./public/components/footer.html.erb'), nil, nil, '_footer_out').result(binding) %>

@@ -33,6 +33,11 @@ server.mount_proc("/login") { |req, res|
     res.body << template.result( binding )
 }
 
+server.mount_proc("/signup") { |req, res| 
+    template = ERB.new( File.read('./public/signup.html.erb') )
+    res.body << template.result( binding )
+}
+
 
 # ログイン機能
 
@@ -52,8 +57,9 @@ server.mount_proc("/api/login") { |req, res|
         
         # クッキーにセッションIDをセット
         res.cookies << WEBrick::Cookie.new('session_id', session_id)
-
+        
         # リダイレクト
+        res.body = JSON.generate({"message": "ユーザー登録完了"})
         res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/login')
     else
         # ログイン失敗
@@ -81,10 +87,45 @@ server.mount_proc("/api/logout") { |req, res|
     end
 }
 
+# ユーザー登録
+server.mount_proc("/api/signup") { |req, res| 
+    name = req.query['username']
+    email = req.query['email']
+    password = req.query['password']
+    IMAGES = ["wolf_man.png", "dracula.png", "frankenstein.png", "man.png", "woman.png"]
+    image = IMAGES[rand(IMAGES.length)]
+    
+    user = db_client.query("SELECT * FROM LiqRecipe.users WHERE email = '#{email}' AND password = '#{password}'").first
+    
+    if user
+        # すでに登録済
+        res.status = 409
+        res.body = JSON.generate({"message": "すでに登録済みです"})
+    else
+        # ユーザー登録
+        db_client.query("INSERT INTO LiqRecipe.users (name, email, password, image) VALUES ('#{name}', '#{email}', '#{password}', '#{image}')")
+
+        # ログイン
+        user = db_client.query("SELECT * FROM LiqRecipe.users WHERE email = '#{email}' AND password = '#{password}'").first
+        
+        session_id = SecureRandom.uuid
+        sessions[session_id] = user['id']
+        
+        # セッションIDとユーザーIDをデータベースに保存
+        # db_client.query("INSERT INTO user_sessions (session_id, user_id) VALUES ('#{session_id}', #{user['id']})")
+        
+        # クッキーにセッションIDをセット
+        res.cookies << WEBrick::Cookie.new('session_id', session_id)
+        
+        # リダイレクト
+        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/')
+    end
+}
+
 # ログインしているユーザー情報を取得
 server.mount_proc '/api/get_current_user' do |req, res|
     session_id = req.cookies.find { |c| c.name == 'session_id' }&.value
-
+    
     if sessions[session_id]
         user_id = sessions[session_id]
         # データベースからユーザー情報を取得

@@ -1,0 +1,71 @@
+.signup_container {
+  width: 600px;
+  max-width: 600px;
+  margin: 100px auto;
+  text-align: center;
+}
+
+.signup_title {
+  font-size: 50px;
+  font-weight: bold;
+  letter-spacing: 10px;
+  margin-bottom: 100px;
+}
+
+.signup_username_label, .signup_email_label, .signup_password_label {
+  display: block;
+  font-size: 22px;
+  letter-spacing: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.signup_username_input, .signup_email_input, .signup_password_input {
+  display: block;
+  background: #EDEDED;
+  margin: 0 auto;
+  border-radius: 40px;
+  width: 600px;
+  height: 60px;
+  font-size: 20px;
+  padding: 0 30px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.signup_username_input:focus, .signup_email_input:focus, .signup_password_input:focus {
+  outline: #8A8A8A 2px solid;
+} 
+
+.signup_form {
+  margin-bottom: 50px;
+}
+
+.signup_username_container, .signup_email_container, .signup_password_container {
+  text-align: left;
+  padding-bottom: 50px;
+}
+
+.signup_message {
+  font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  color: #e82401;
+}
+
+.signup_button_container {
+  width: 250px;
+  height: 70px;
+  margin: 50px auto;
+}
+
+.signup_button {
+  display: block;
+  width: 250px;
+  height: 70px;
+  background: #e82401;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
