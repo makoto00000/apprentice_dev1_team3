@@ -1,0 +1,105 @@
+<%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_header_out').result(binding) %>
+
+<%# TODO 最後の４要素について動的にスタイルを適用させる %>
+<%# <style>
+  .recipes_recipe_container:nth-child(18) {
+  opacity: 0.3;
+}
+.recipes_recipe_container:nth-child(19) {
+  opacity: 0.3;
+}
+.recipes_recipe_container:nth-child(20) {
+  opacity: 0.3;
+}
+.recipes_recipe_container:nth-child(21) {
+  opacity: 0.3;
+}
+</style> %>
+<main class="recipes_container">
+  <div class="recipes_header">
+    <h1>レシピ一覧</h1>
+    <div class="recipes_sort_relative">
+      <div class="recipes_sort_container">新着順<span class="recipes_dli-chevron-down"></span>
+      </div>
+    </div>
+  </div>
+
+    <div class="recipes_recipes_container" id="recipes_recipes_container">
+    <div class="recipes_more_load_button_container" id="recipes_more_load_button_container">
+        <button class="recipes_more_load_button" id="recipes_more_load_button">さらに読み込む</button>
+    </div>
+
+      <%# <div class="recipes_recipe_container">
+        <div class="recipes_recipe_image">
+          <img src="./public/image/recipe_images/recipe_image.png" alt="">
+          <div class="recipes_recipe_tag"><img src="./public/image/tag_icon.png" alt="">その他リキュール</div>
+        </div>
+        <div class="recipes_recipe_name">レシピ名</div>
+      </div> %>
+    
+    </div>
+
+
+
+  </div>
+</main>
+
+<script>
+  let offset = 0;
+  let limit = 20;
+  let opacities = [18, 19, 20, 21]
+  document.addEventListener('DOMContentLoaded', function () {
+    const recipesContainer = document.getElementById('recipes_recipes_container');
+    const loadMoreButtonContainer = document.getElementById('recipes_more_load_button_container');
+    const loadMoreButton = document.getElementById('recipes_more_load_button');
+
+    // データを取得して表示する関数
+    function loadData() {
+      fetch(`/api/recipes?offset=${offset}`)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach((item,index) => {
+            // HTMLに20件分のデータを出力
+            const recipeContainer = document.createElement('div');
+            recipeContainer.className = 'recipes_recipe_container';
+            recipeContainer.innerHTML = 
+            `<div class="recipes_recipe_image">
+                <img src="./public/image/recipe_images/${item.recipe_image}" alt="">
+                <div class="recipes_recipe_tag"><img src="./public/image/tag_icon.png" alt="">${item.recipe_category}</div>
+              </div>
+              <div class="recipes_recipe_name">${item.recipe_name}</div>`;
+            recipesContainer.appendChild(recipeContainer);
+
+          });
+          
+          if (data.length === limit) {
+            loadMoreButtonContainer.style.display = 'block';
+            // 最後の4件分を半透明にする
+            opacities.forEach(opacityNum => {
+              document.querySelector(`.recipes_recipe_container:nth-child(${opacityNum})`).style.opacity = '0.3'
+            })
+          } else {
+            loadMoreButtonContainer.style.display = 'none';
+          }
+        });
+    }
+
+    // 初回ロード
+    loadData();
+
+    // 「さらに読み込む」ボタンクリック時に追加データを取得して表示
+    loadMoreButton.addEventListener('click', function () {
+      opacities.forEach(opacityNum => {
+        document.querySelector(`.recipes_recipe_container:nth-child(${opacityNum})`).style.opacity = '1.0'
+      })
+      offset += 20;
+      opacities.forEach((opacityNum, index, array) => {
+        array[index] = opacityNum + offset;
+      });
+      loadData();
+    });
+
+  });
+</script>
+
+<%= ERB.new(File.read('./public/components/footer.html.erb'), nil, nil, '_footer_out').result(binding) %>
