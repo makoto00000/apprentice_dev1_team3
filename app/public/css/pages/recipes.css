@@ -110,8 +110,8 @@
   text-align: center;
   display: none;
   z-index: 9999;
-
 }
+
 .recipes_more_load_button {
   background: #E82401;
   color: #fff;
@@ -121,3 +121,21 @@
   padding: 26px 56px;
   border-radius: 10px;
 }
+
+.fade_up {
+  opacity: 0;
+  transform: translateY(100px);
+  animation: fadeUpAnime 0.5s ease forwards; /* アニメーションの設定 */
+  }
+  
+  @keyframes fadeUpAnime{
+    from {
+      opacity: 0;
+    transform: translateY(100px);
+    }
+  
+    to {
+      opacity: 1;
+    transform: translateY(0);
+    }
+  }

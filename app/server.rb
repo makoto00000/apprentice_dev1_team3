@@ -191,19 +191,30 @@ server.mount_proc("/api/recipes") do |req, res|
     res['Access-Control-Request-Method'] = '*'
 
     offset = req.query['offset']
+    liquorId = req.query['liquorId']
+    tasteId = req.query['tasteId']
+    searchWord = req.query['searchWord']
     limit = 20
 
     case req.request_method
     when 'GET'
-        if req.query['genre_id'].nil? && req.query['search_word'].nil?
+        if !liquorId && !tasteId && !searchWord
             # レシピ一覧を取得するときの処理
-            results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.genres.name AS recipe_category FROM LiqRecipe.recipes JOIN LiqRecipe.genres ON LiqRecipe.recipes.genre_id = LiqRecipe.genres.id ORDER BY id DESC LIMIT #{offset}, #{limit}")
+            # results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.genres.name AS recipe_category FROM LiqRecipe.recipes JOIN LiqRecipe.genres ON LiqRecipe.recipes.genre_id = LiqRecipe.genres.id ORDER BY id DESC LIMIT #{offset}, #{limit}")
 
-        elsif !req.query['genre_id'] == ""
-            puts # ジャンルを指定したときの処理
+            results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.liquors.id AS liquor_id, LiqRecipe.liquors.name AS liquor_name, LiqRecipe.tastes.id AS taste_id, LiqRecipe.tastes.name AS taste_name FROM LiqRecipe.recipes JOIN LiqRecipe.liquors ON LiqRecipe.recipes.liquor_id = LiqRecipe.liquors.id JOIN LiqRecipe.tastes ON LiqRecipe.recipes.taste_id = LiqRecipe.tastes.id ORDER BY id DESC LIMIT #{offset}, #{limit}")
+            
+        elsif liquorId
+            # お酒を指定したときの処理
+            results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.liquors.id AS liquor_id, LiqRecipe.liquors.name AS liquor_name, LiqRecipe.tastes.id AS taste_id, LiqRecipe.tastes.name AS taste_name FROM LiqRecipe.recipes JOIN LiqRecipe.liquors ON LiqRecipe.recipes.liquor_id = LiqRecipe.liquors.id JOIN LiqRecipe.tastes ON LiqRecipe.recipes.taste_id = LiqRecipe.tastes.id WHERE liquor_id = #{liquorId} ORDER BY id DESC LIMIT #{offset}, #{limit}")
 
-        elsif !req.query['search_word'] == ""
-            puts # ワード検索したときの処理
+        elsif tasteId
+            # 種類を指定したときの処理
+            results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.liquors.id AS liquor_id, LiqRecipe.liquors.name AS liquor_name, LiqRecipe.tastes.id AS taste_id, LiqRecipe.tastes.name AS taste_name FROM LiqRecipe.recipes JOIN LiqRecipe.liquors ON LiqRecipe.recipes.liquor_id = LiqRecipe.liquors.id JOIN LiqRecipe.tastes ON LiqRecipe.recipes.taste_id = LiqRecipe.tastes.id WHERE taste_id = #{tasteId} ORDER BY id DESC LIMIT #{offset}, #{limit}")
+            
+        elsif searchWord
+            # ワード検索したときの処理
+            results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.liquors.id AS liquor_id, LiqRecipe.liquors.name AS liquor_name, LiqRecipe.tastes.id AS taste_id, LiqRecipe.tastes.name AS taste_name FROM LiqRecipe.recipes JOIN LiqRecipe.liquors ON LiqRecipe.recipes.liquor_id = LiqRecipe.liquors.id JOIN LiqRecipe.tastes ON LiqRecipe.recipes.taste_id = LiqRecipe.tastes.id WHERE LiqRecipe.recipes.name LIKE '%#{searchWord}%' ORDER BY id DESC LIMIT #{offset}, #{limit}")
         else
             # それ以外のクエリが送られてきたとき
             res.status = 401  # メソッドが許可されていない場合
