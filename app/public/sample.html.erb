@@ -1,0 +1,35 @@
+
+<%
+require 'net/http'
+require 'uri'
+require 'json'
+
+url = URI.parse('http://localhost:8000/api/genres')
+req = Net::HTTP::Get.new(url.path)
+res = Net::HTTP.start(url.host, url.port) {|http|
+  http.request(req)
+}
+data = JSON.parse(res.body)
+%>
+
+<%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_header_out').result(binding) %>
+
+    <h1>ジャンル一覧</h1>
+    <table>
+      <tbody>
+        <tr>
+          <th>ジャンル名</th>
+          <th>カテゴリ名</th>
+        </tr>
+        <% data.each do |d| %>
+        <tr>
+          <td><%= d['name'] %></td>
+          <td><%= d['category'] %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <a href="/">トップページ</a>
+
+<%= ERB.new(File.read('./public/components/footer.html.erb'), nil, nil, '_footer_out').result(binding) %>

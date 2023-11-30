@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIQ+RECIPE</title>
+  <link rel="stylesheet" href="./public/css/style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header_left">
+      <div class="header_logo"><a href="/">
+        <img src="./public/image/logo.png" alt="logo">
+      </a>
+      </div>
+    </div>
+    <div class="header_right">
+      <div class="navigation">
+        <nav>
+          <ul>
+            <li id="write_recipe_link" class="write_recipe_link"><a href="/posts"><img src="./public/image/write_recipe_icon.png" alt="">レシピを投稿する</a></li>
+            <li id="kinds_hover_open"><img src="./public/image/cocktail_icon.png" alt="">お酒の種類から探す<span class="dli-chevron-down"></span></li>
+            <li id="tastes_hover_open"><img src="./public/image/drink_icon.png" alt="">お酒の味から探す<span class="dli-chevron-down"></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="search_field">
+        <input type="text" id="search_recipe_input">
+        <div class="place_holder" id="place_holder"><img src="./public/image/search_icon.png" alt=""><a>レシピを検索</a></div>
+      </div>
+      <div class="login_button" id="login_button">
+        <button onclick="location.href='/login'">
+          <img src="./public/image/login_icon.png" alt="login_icon">
+          <a>ログイン</a>
+        </button>
+      </div>
+      <div class="user_icon" id="user_icon" onclick="Auth.logoutUser()">
+        <img src="" alt="user icon" id="user_icon_image">
+      </div>
+    </div>
+  </header> 
+  <div class="hover_menu" id="kinds">
+    <div class="categories">
+      <div class="category"><img src="./public/image/wine_icon.png" alt=""><a>ワイン</a></div>
+      <div class="category"><img src="./public/image/beer_icon.png" alt=""><a>ビール</a></div>
+      <div class="category"><img src="./public/image/japanese_sake_icon.png" alt=""><a>日本酒</a></div>
+      <div class="category"><img src="./public/image/shochu_icon.png" alt=""><a>焼酎</a></div>
+      <div class="category"><img src="./public/image/whiskey_icon.png" alt=""><a>ウイスキー</a></div>
+      <div class="category"><img src="./public/image/brandy_icon.png" alt=""><a>ブランデー</a></div>
+      <div class="category"><img src="./public/image/gin_icon.png" alt=""><a>ジン</a></div>
+      <div class="category"><img src="./public/image/vodka_icon.png" alt=""><a>ウォッカ</a></div>
+      <div class="category"><img src="./public/image/rum_icon.png" alt=""><a>ラム</a></div>
+      <div class="category"><img src="./public/image/tequila_icon.png" alt=""><a>テキーラ</a></div>
+      <div class="category"><img src="./public/image/fruit_wine_icon.png" alt=""><a>果実酒</a></div>
+      <div class="category"><img src="./public/image/other_liqueur_icon.png" alt=""><a>リキュール</a></div>
+    </div>
+  </div>
+  <div class="hover_menu" id="tastes">
+    <div class="categories">
+      <div class="category"><img src="./public/image/sweet_taste_image.png" alt=""><a>甘口</a></div>
+      <div class="category"><img src="./public/image/soda_image.png" alt=""><a>炭酸</a></div>
+      <div class="category"><img src="./public/image/fruity_image.png" alt=""><a>フルーティー</a></div>
+      <div class="category"><img src="./public/image/spicy_image.png" alt=""><a>辛口</a></div>
+      <div class="category"><img src="./public/image/citrus_image.png" alt=""><a>シトラス</a></div>
+      <div class="category"><img src="./public/image/bitter_image.png" alt=""><a>ビター</a></div>
+    </div>
+  </div>

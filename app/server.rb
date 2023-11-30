@@ -4,9 +4,10 @@ require 'webrick'
 require 'mysql2'
 require 'json'
 require 'erb'
+require 'securerandom'
 
 # データベース接続情報
-client = Mysql2::Client.new(:host => 'mysql-container', :user => 'root', :password => 'root')
+db_client = Mysql2::Client.new(:host => 'mysql-container', :user => 'root', :password => 'root')
 
 config = {
     :Port => 8000,
@@ -16,18 +17,103 @@ config = {
 # erbファイルをhtmlとして返す
 WEBrick::HTTPServlet::FileHandler.add_handler("erb", WEBrick::HTTPServlet::ERBHandler)
 server = WEBrick::HTTPServer.new(config)
-server.config[:MimeTypes]["erb"] = "text/html"
+server.config[:MimeTypes][".html.erb"] = "text/html"
 
+# セッションを定義
+sessions = {}
 
-# # ルーティング設定
+# ルーティング設定
 server.mount_proc("/sample") { |req, res| 
-    template = ERB.new( File.read('sample.erb') )
+    template = ERB.new( File.read('./public/sample.html.erb') )
+    res.body << template.result( binding )
+}
+
+server.mount_proc("/login") { |req, res| 
+    template = ERB.new( File.read('./public/login.html.erb') )
     res.body << template.result( binding )
 }
 
 
+# ログイン機能
+
+# ログイン処理
+server.mount_proc("/api/login") { |req, res| 
+    email = req.query['email']
+    password = req.query['password']
+    user = db_client.query("SELECT * FROM LiqRecipe.users WHERE email = '#{email}' AND password = '#{password}'").first
+    
+    if user
+        # ログイン成功
+        session_id = SecureRandom.uuid
+        sessions[session_id] = user['id']
+        
+        # セッションIDとユーザーIDをデータベースに保存
+        # db_client.query("INSERT INTO user_sessions (session_id, user_id) VALUES ('#{session_id}', #{user['id']})")
+        
+        # クッキーにセッションIDをセット
+        res.cookies << WEBrick::Cookie.new('session_id', session_id)
+
+        # リダイレクト
+        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/login')
+    else
+        # ログイン失敗
+        res.status = 401
+        res.body = 'Login failed'
+    end
+}
+
+#ログアウトの処理
+server.mount_proc("/api/logout") { |req, res|
+    session_id = req.cookies.find { |c| c.name == 'session_id' }&.value
+
+    if sessions[session_id]
+        # セッション削除
+        sessions.delete(session_id)
+
+        # データベースからもセッション情報を削除
+        # db_client.query("DELETE FROM user_sessions WHERE session_id = '#{session_id}'")
+
+        res.body = 'Logout successful'
+        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/sample')
+
+    else
+        res.body = 'Not logged in'
+    end
+}
+
+# ログインしているユーザー情報を取得
+server.mount_proc '/api/get_current_user' do |req, res|
+    session_id = req.cookies.find { |c| c.name == 'session_id' }&.value
+
+    if sessions[session_id]
+        user_id = sessions[session_id]
+        # データベースからユーザー情報を取得
+        user = db_client.query("SELECT * FROM LiqRecipe.users WHERE id = #{user_id}").first
+        if user
+            res.body = JSON.generate(user)
+        else
+            res.status = 404
+            res.body = 'User not found'
+        end
+    else
+        res.status = 401
+        res.body = 'Not logged in'
+    end
+end
+
+server.mount_proc '/api/is_logged_in' do |req, res|
+    session_id = req.cookies.find { |c| c.name == 'session_id' }&.value
+    if sessions[session_id]
+        res.body = JSON.generate({"isLoggedIn": true})
+        
+    else
+        res.status = 401
+        res.body = JSON.generate({"isLoggedIn": false})
+    end
+end
+
 # APIエンドポイントのルート
-server.mount_proc("/api") do |req, res|
+server.mount_proc("/api/genres") do |req, res|
     # CORSヘッダを設定 (クロスオリジンリクエストを許可する場合)
     res['Access-Control-Allow-Origin'] = '*'
     res['Access-Control-Request-Method'] = '*'
@@ -36,16 +122,16 @@ server.mount_proc("/api") do |req, res|
     case req.request_method
         when 'GET'
             # データの取得
-            results = client.query("SELECT * FROM demo.test")
+            results = db_client.query("SELECT * FROM LiqRecipe.genres")
             data = results.to_a
             res.body = data.to_json
             res["Content-type"] = "application/json"
         when 'POST'
             # データの新規作成
             name = req.query['name']
-            result = client.query("INSERT INTO demo.test(name) VALUES ('#{name}')")
-            res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/sample.erb')
-            
+            category = req.query['category']
+            result = db_client.query("INSERT INTO LiqRecipe.genres (name, category) VALUES ('#{name}', '#{category}')")
+            res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/sample')
         else
             res.status = 405  # メソッドが許可されていない場合
             res.body = 'Method Not Allowed'
@@ -56,4 +142,6 @@ server.mount_proc("/api") do |req, res|
 trap(:INT){
     server.shutdown
 }
+
+# サーバー起動
 server.start
