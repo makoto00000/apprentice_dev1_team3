@@ -38,6 +38,11 @@ server.mount_proc("/signup") { |req, res|
     res.body << template.result( binding )
 }
 
+server.mount_proc("/recipes") { |req, res| 
+    template = ERB.new( File.read('./public/recipes.html.erb') )
+    res.body << template.result( binding )
+}
+
 
 # ログイン機能
 
@@ -161,23 +166,78 @@ server.mount_proc("/api/genres") do |req, res|
 
     # APIエンドポイントへのリクエストメソッドごとに処理を分ける
     case req.request_method
-        when 'GET'
-            # データの取得
-            results = db_client.query("SELECT * FROM LiqRecipe.genres")
-            data = results.to_a
-            res.body = data.to_json
-            res["Content-type"] = "application/json"
-        when 'POST'
-            # データの新規作成
-            name = req.query['name']
-            category = req.query['category']
-            result = db_client.query("INSERT INTO LiqRecipe.genres (name, category) VALUES ('#{name}', '#{category}')")
-            res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/sample')
-        else
-            res.status = 405  # メソッドが許可されていない場合
-            res.body = 'Method Not Allowed'
-        end
+    when 'GET'
+        # データの取得
+        results = db_client.query("SELECT * FROM LiqRecipe.genres")
+        data = results.to_a
+        res.body = data.to_json
+        res["Content-type"] = "application/json"
+    when 'POST'
+        # データの新規作成
+        name = req.query['name']
+        category = req.query['category']
+        result = db_client.query("INSERT INTO LiqRecipe.genres (name, category) VALUES ('#{name}', '#{category}')")
+        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/sample')
+    else
+        res.status = 405  # メソッドが許可されていない場合
+        res.body = 'Method Not Allowed'
     end
+end
+
+
+server.mount_proc("/api/recipes") do |req, res|
+    # CORSヘッダを設定 (クロスオリジンリクエストを許可する場合)
+    res['Access-Control-Allow-Origin'] = '*'
+    res['Access-Control-Request-Method'] = '*'
+
+    offset = req.query['offset']
+    liquorId = req.query['liquorId']
+    tasteId = req.query['tasteId']
+    searchWord = req.query['searchWord']
+    limit = 20
+
+    case req.request_method
+    when 'GET'
+        if !liquorId && !tasteId && !searchWord
+            # レシピ一覧を取得するときの処理
+            # results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.genres.name AS recipe_category FROM LiqRecipe.recipes JOIN LiqRecipe.genres ON LiqRecipe.recipes.genre_id = LiqRecipe.genres.id ORDER BY id DESC LIMIT #{offset}, #{limit}")
+
+            results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.liquors.id AS liquor_id, LiqRecipe.liquors.name AS liquor_name, LiqRecipe.tastes.id AS taste_id, LiqRecipe.tastes.name AS taste_name FROM LiqRecipe.recipes JOIN LiqRecipe.liquors ON LiqRecipe.recipes.liquor_id = LiqRecipe.liquors.id JOIN LiqRecipe.tastes ON LiqRecipe.recipes.taste_id = LiqRecipe.tastes.id ORDER BY id DESC LIMIT #{offset}, #{limit}")
+            
+        elsif liquorId
+            # お酒を指定したときの処理
+            results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.liquors.id AS liquor_id, LiqRecipe.liquors.name AS liquor_name, LiqRecipe.tastes.id AS taste_id, LiqRecipe.tastes.name AS taste_name FROM LiqRecipe.recipes JOIN LiqRecipe.liquors ON LiqRecipe.recipes.liquor_id = LiqRecipe.liquors.id JOIN LiqRecipe.tastes ON LiqRecipe.recipes.taste_id = LiqRecipe.tastes.id WHERE liquor_id = #{liquorId} ORDER BY id DESC LIMIT #{offset}, #{limit}")
+
+        elsif tasteId
+            # 種類を指定したときの処理
+            results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.liquors.id AS liquor_id, LiqRecipe.liquors.name AS liquor_name, LiqRecipe.tastes.id AS taste_id, LiqRecipe.tastes.name AS taste_name FROM LiqRecipe.recipes JOIN LiqRecipe.liquors ON LiqRecipe.recipes.liquor_id = LiqRecipe.liquors.id JOIN LiqRecipe.tastes ON LiqRecipe.recipes.taste_id = LiqRecipe.tastes.id WHERE taste_id = #{tasteId} ORDER BY id DESC LIMIT #{offset}, #{limit}")
+            
+        elsif searchWord
+            # ワード検索したときの処理
+            results = db_client.query("SELECT LiqRecipe.recipes.id, LiqRecipe.recipes.name AS recipe_name, LiqRecipe.recipes.image AS recipe_image, LiqRecipe.liquors.id AS liquor_id, LiqRecipe.liquors.name AS liquor_name, LiqRecipe.tastes.id AS taste_id, LiqRecipe.tastes.name AS taste_name FROM LiqRecipe.recipes JOIN LiqRecipe.liquors ON LiqRecipe.recipes.liquor_id = LiqRecipe.liquors.id JOIN LiqRecipe.tastes ON LiqRecipe.recipes.taste_id = LiqRecipe.tastes.id WHERE LiqRecipe.recipes.name LIKE '%#{searchWord}%' ORDER BY id DESC LIMIT #{offset}, #{limit}")
+        else
+            # それ以外のクエリが送られてきたとき
+            res.status = 401  # メソッドが許可されていない場合
+            res.body = 'Not Found'
+            
+        end
+
+        # データの取得
+
+        data = results.to_a
+        res.body = data.to_json
+        res["Content-type"] = "application/json"
+
+    when 'POST'
+        
+    else
+        res.status = 405  # メソッドが許可されていない場合
+        res.body = 'Method Not Allowed'
+    end
+end
+
+
+
 
 # シャットダウン
 trap(:INT){

@@ -1,17 +1,34 @@
 
-const searchInput = document.getElementById('search_recipe_input')
+// テキスト検索
+const searchRecipeInput = document.getElementById('search_recipe_input')
 const placeholder = document.getElementById('place_holder')
+let inputValue = ""
+
 placeholder.addEventListener('click', function() {
-  searchInput.focus();
+  searchRecipeInput.focus();
 })
-searchInput.addEventListener('focus', function() {
+
+searchRecipeInput.addEventListener('focus', function() {
   placeholder.style.display = 'none';
 })
-searchInput.addEventListener('blur', function() {
-  placeholder.style.display = '';
+
+searchRecipeInput.addEventListener('blur', function(e) {
+  if (inputValue === "") {
+    placeholder.style.display = '';
+  }
 })
 
+searchRecipeInput.addEventListener('keyup', function() {
+  inputValue = this.value;
+})
 
+searchRecipeInput.addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') {
+    window.location.href = `/recipes?searchWord=${this.value}`;
+  }
+})
+
+// ホバーメニューを表示させる
 const hoverKinds = document.getElementById('kinds')
 const hoverMenuKinds = document.getElementById('kinds_hover_open')
 const hoverTastes = document.getElementById('tastes')
@@ -51,6 +68,7 @@ hoverTastes.addEventListener ("mouseout", function() {
   hoverTastes.style.visibility = "hidden"
 })
 
+// ログイン状態で表示を切り替え
 document.addEventListener('DOMContentLoaded', async () => {
   const isLoggedIn = await Auth.isLoggedIn();
   writeRecipeLink = document.getElementById('write_recipe_link');
@@ -72,5 +90,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     loginButton.style.display = "block";
   }
 });
-
-// TODO: データベースに画像URLを保存して表示テスト
