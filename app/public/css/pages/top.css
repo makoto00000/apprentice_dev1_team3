@@ -1,0 +1,176 @@
+.banner {
+  position: relative;
+}
+
+.banner img {
+  width: 100%;
+  height: auto;
+}
+
+.banner h2 {
+  font-size: 300%;
+  font-weight: 1%;
+  font-family: 'Open Sans Hebrew Condensed';
+  line-height: 150%;
+  letter-spacing: 0.4em;
+  position: absolute;
+  color: white;
+  left: 8%;
+  top: 40%;
+}
+
+.about {
+  width: 80%;
+  font-family: 'Noto Sans JP';
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%;
+  display: center;
+  align-items: center;
+  letter-spacing: 0.2em;
+  color: #000000;
+  margin: 8% 0 0 0%;
+  font-size: 40px
+}
+
+.about-title {
+  width: 70%;
+  font-size: 80%;
+  margin: 0 0 5% 50%;
+}
+
+.about-contents{
+  width: 80%;
+  font-size: 100%;
+  margin: 0 0 5% 25%; 
+}
+
+.about-content{
+  font-size: 80%;
+}
+
+.can-title {
+  font-weight: 700;
+  margin: 10% 0 5% 38%;
+  font-family: 'Noto Sans JP';
+  line-height: 180%;
+  letter-spacing: 0.2em;
+  font-size: 40px;
+}  
+
+.can-title-red {
+  font-size: 90%;
+  color: #E82401;
+}
+
+.can-title-black {
+  font-size: 90%;
+}
+
+.can-card {
+  width: 75%;
+  height: 70%;
+  box-shadow: 0px 1px 13px rgba(0,0,0,0.1);
+  background: #fff;
+  padding: 1%;
+  padding-bottom:5%;
+  color: #333333;
+  margin: 5% 0 5% 13%;
+  font-size: 30px;
+}
+
+.can-card-title {
+  margin: 5% 0 5% 38%;
+}
+
+.can-card-title::before,
+.can-card-title::after {
+  background-color: #333333;
+  content: "";
+  height: 3px;
+  width: 40px;
+  display: inline-block;
+  margin : 0 0 1% 0;
+}
+.can-card-title::before {
+  margin-right: 15px;
+}
+.can-card-title::after {
+  margin-left: 15px;
+}
+
+.can-card-title-contents {
+  font-size: 100%;
+  font-weight: bold;
+}
+
+.can-card-contents {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  line-height: 180%;
+  font-family: 'Noto Sans JP';
+  font-weight: 700;
+  margin : 0 0 0 10%;
+  font-size: 30px;
+}
+
+.can-card-contents-image {
+  width: 30%;
+}
+
+.can-card-contents-text{
+  width: 70%;
+  font-size: 90%;
+  margin : 0 0 0 5%;
+}
+
+.find-contents{
+  width: 80%;
+  font-family: 'Noto Sans JP';
+  font-weight: 700;
+  line-height: 100%;
+  display: center;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.2em;
+  color: #000000;
+  margin: 8% 0 0 0%;
+}
+
+.find-content{
+  font-size: 30px;
+  margin: 0 0 5% 25%;
+}
+
+.find-register{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 5% 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+.find-register-logo{
+  width: 50px;
+}
+
+.find-register-url{
+  color: #E82401;
+  font-size: 90%;
+  margin: 2% 0 0 0;
+}
+
+.find-images{
+  width: 70%;
+  margin: 0 0 5% 18%;
+}
+
+.find-image{
+  border-color: black;
+  width: 20%;
+  height: 25%;
+  margin: 1% 1%;
+}
