@@ -10,6 +10,10 @@
   padding: 18px 50px;
   min-width: 1024px;
   border-bottom: 2px solid #D9D9D9;
+  position: fixed;
+  z-index: 9999;
+  background: #fff;
+  width: 100%;
 }
 
 .header_logo a img {
@@ -153,6 +157,7 @@
   transition: all .3s ease-out;
   position: fixed;
   background: #fff;
+  margin-top: 100px;
 }
 
 .categories {
@@ -183,4 +188,14 @@
 
 .category img {
   margin-right: 10px;
+}
+
+.category a {
+  display: flex;
+  align-items: center;
+}
+
+/* ヘッダーをposition:fixed;としたため↓ */
+main {
+padding-top: 100px;
 }
