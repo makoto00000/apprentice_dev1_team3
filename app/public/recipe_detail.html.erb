@@ -83,18 +83,58 @@
           </div>
         </div> %>
       </div>
-      <button class="button_write button_write_review">レビューを書く</button>
-      <button class="button_write button_more_review">もっと見る(100件)</button>
+      <button id="modalBtn" class="button_write button_write_review">レビューを書く</button>
+      <div id="myModal" class="modal">
+        <div class="modal-content modal-review">
+          <div class="modal-review-title">レビュー投稿</div>
+          <form action="/api/review" method="post">
+            <div class="input-image" >
+              <input class="input-image-contents" for="image" name="image" accept="image/jpeg, image/png" type="file" >
+              <img class="input-select-image" src="../public/image/select_image.png" alt="">
+            </div>
+            <input class="input-text" name="text" type="text" placeholder="レビュー(必須)">
+            <input type="hidden" id="recipeId" name="recipeId" value="" />
+            <div class="review-buttons">
+              <button type="button" class="review-button close">閉じる</button>
+              <button type="submit" id="review_button" value=recipeId class="review-button">投稿する</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <button class="button_write button_more_review">もっと見る</button>
     </div>
   </div>
+
 </main>
 
 <script>
+  let modal = document.getElementById("myModal");
+  let btn = document.getElementById("modalBtn");
+  let span = document.getElementsByClassName("close")[0];
+  // ボタンをクリックするとモーダルを開く
+  btn.onclick = function() {
+      modal.style.display = "block";
+  }
+
+  // <span> (x) をクリックするとモーダルを閉じる
+  span.onclick = function() {
+      modal.style.display = "none";
+  }
+
+  // モーダルの外側をクリックすると閉じる
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
       const recipeId = urlParams.get('recipeId');
       
+      document.getElementById("recipeId").value = recipeId;
+
       const recipeImageContainer = document.getElementById("recipe-details-about-image")
       // const wrapContainer = document.getElementById("recipe-details-about-wrap")
       const wrapNameContainer = document.getElementById("recipe-details-about-wrap-name")
@@ -111,7 +151,7 @@
       const pointContainer = document.createElement('div');
       const reviewContainer = document.createElement('div');
       aboutImageContainer.className = "recipe-details-about-image"
-
+      reviewContainer.className = "recipe-details-reviews-multi"
       fetch(`/api/recipe-detail?recipeId=${recipeId}`)
       .then(response => response.json())
       .then(recipedata => {
