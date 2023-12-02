@@ -250,11 +250,7 @@ server.mount_proc("/api/recipe-detail") do |req, res|
     ingredientId = req.query['ingredientId']
     procedureId = req.query['procedureId']
     reviewId = req.query['reviewId']
-    # tasteId = req.query['tasteId']
-    # liquorId = req.query['liquorId']
-    # userID = req.query['userId']
 
-    # puts recipeId
     case req.request_method
     when 'GET'
         if recipeId 
@@ -283,6 +279,26 @@ server.mount_proc("/api/recipe-detail") do |req, res|
     end
 end
 
+server.mount_proc("/api/review") { |req, res| 
+    image = req.query['image']
+    text = req.query['text']
+    recipeId = req.query['recipeId']
+    image = "no_image.png" if image.empty?
+
+    session_id = req.cookies.find { |c| c.name == 'session_id' }&.value
+    
+    if sessions[session_id]
+        user_id = sessions[session_id]
+
+        db_client.query("INSERT INTO LiqRecipe.reviews (content, image, user_id, recipe_id) VALUES ('#{text}', '#{image}', '#{user_id}', '#{recipeId}')")
+    else
+        res.status = 401
+        res.body = 'Not logged in'
+    end
+    puts image
+    # リダイレクト
+    res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/detail?recipeId=1')
+}
 
 # シャットダウン
 trap(:INT){

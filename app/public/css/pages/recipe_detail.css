@@ -127,7 +127,7 @@
 }
 
 .recipe-details-reviews-single-image{
-  width: 95%;
+  width: 90%;
 }
 
 .recipe-details-reviews-single-user{
@@ -176,7 +176,7 @@
 }
 
 .button_more_review{
-  background: grey;
+  background-color: #BBBBBB;
   color: #000000;
 }
 
