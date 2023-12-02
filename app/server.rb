@@ -43,6 +43,11 @@ server.mount_proc("/recipes") { |req, res|
     res.body << template.result( binding )
 }
 
+server.mount_proc("/detail") { |req, res| 
+    template = ERB.new( File.read('./public/recipe_detail.html.erb') )
+    res.body << template.result( binding )
+}
+
 
 # ログイン機能
 
@@ -236,7 +241,47 @@ server.mount_proc("/api/recipes") do |req, res|
     end
 end
 
+server.mount_proc("/api/recipe-detail") do |req, res|
+    # CORSヘッダを設定 (クロスオリジンリクエストを許可する場合)
+    res['Access-Control-Allow-Origin'] = '*'
+    res['Access-Control-Request-Method'] = '*'
 
+    recipeId = req.query['recipeId']
+    ingredientId = req.query['ingredientId']
+    procedureId = req.query['procedureId']
+    reviewId = req.query['reviewId']
+    # tasteId = req.query['tasteId']
+    # liquorId = req.query['liquorId']
+    # userID = req.query['userId']
+
+    # puts recipeId
+    case req.request_method
+    when 'GET'
+        if recipeId 
+            # results = db_client.query("SELECT LiqRecipe.recipes.id as recipe_id, LiqRecipe.recipes.name as recipe_name, LiqRecipe.recipes.image as recipe_image, LiqRecipe.ing.id as ingredients_id, LiqRecipe.ing.order_num as ingredients_order, LiqRecipe.ing.name as ingredients_name, LiqRecipe.ing.amount as ingredients_amount, LiqRecipe.pro.id as procedure_id, LiqRecipe.pro.order_num as procedure_order, LiqRecipe.pro.procedure_text as procedure_name, LiqRecipe.pro.image as procedure_image, LiqRecipe.tas.name as taste_name, LiqRecipe.liq.name as liquor_name, LiqRecipe.users.name as user_name FROM LiqRecipe.recipes join LiqRecipe.ingredients as ing on LiqRecipe.ing.recipe_id = LiqRecipe.recipes.id join LiqRecipe.procedures as pro on LiqRecipe.pro.recipe_id = LiqRecipe.recipes.id join LiqRecipe.liquors as liq on LiqRecipe.liq.id = LiqRecipe.recipes.liquor_id join LiqRecipe.tastes as tas on LiqRecipe.tas.id = LiqRecipe.recipes.taste_id join LiqRecipe.users on LiqRecipe.users.id = LiqRecipe.recipes.user_id WHERE LiqRecipe.recipes.id = #{recipeId}")
+            results = db_client.query("SELECT LiqRecipe.recipes.id as recipe_id, LiqRecipe.recipes.name as recipe_name, LiqRecipe.recipes.point as recipe_point, LiqRecipe.recipes.summary as recipe_summary, LiqRecipe.recipes.image as recipe_image, LiqRecipe.tas.name as taste_name, LiqRecipe.liq.name as liquor_name, LiqRecipe.users.name as user_name FROM LiqRecipe.recipes join LiqRecipe.liquors as liq on LiqRecipe.liq.id = LiqRecipe.recipes.liquor_id join LiqRecipe.tastes as tas on LiqRecipe.tas.id = LiqRecipe.recipes.taste_id join LiqRecipe.users on LiqRecipe.users.id = LiqRecipe.recipes.user_id WHERE LiqRecipe.recipes.id = #{recipeId}")
+        elsif ingredientId
+            results = db_client.query("SELECT LiqRecipe.ing.id as ingredients_id, LiqRecipe.ing.order_num as ingredients_order, LiqRecipe.ing.name as ingredients_name, LiqRecipe.ing.amount as ingredients_amount FROM LiqRecipe.ingredients as ing WHERE LiqRecipe.ing.recipe_id = #{ingredientId}")
+        elsif procedureId
+            results = db_client.query("SELECT LiqRecipe.pro.id as procedure_id, LiqRecipe.pro.order_num as procedure_order, LiqRecipe.pro.procedure_text as procedure_name, LiqRecipe.pro.image as procedure_image FROM LiqRecipe.procedures as pro WHERE LiqRecipe.pro.recipe_id = #{procedureId}")
+        elsif reviewId
+            results = db_client.query("SELECT LiqRecipe.rev.content as review_content, LiqRecipe.rev.image as review_image, LiqRecipe.rev.created_at as review_created_at, LiqRecipe.users.image as user_image, LiqRecipe.users.name as user_name FROM LiqRecipe.reviews as rev join LiqRecipe.users on LiqRecipe.users.id = rev.user_id WHERE LiqRecipe.rev.recipe_id = #{reviewId}")
+        end
+        # それ以外のクエリが送られてきたとき
+        # res.status = 401  # メソッドが許可されていない場合
+        # res.body = 'Not Found'
+        # データの取得
+        data = results.to_a
+        res.body = data.to_json
+        res["Content-type"] = "application/json"
+
+    when 'POST'
+        
+    else
+        res.status = 405  # メソッドが許可されていない場合
+        res.body = 'Method Not Allowed'
+    end
+end
 
 
 # シャットダウン
