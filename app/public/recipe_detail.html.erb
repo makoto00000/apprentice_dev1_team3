@@ -89,10 +89,10 @@
           <div class="modal-review-title">レビュー投稿</div>
           <form action="/api/review" method="post">
             <div class="input-image" >
-              <input class="input-image-contents" for="image" name="image" accept="image/jpeg, image/png" type="file" >
-              <img class="input-select-image" src="../public/image/select_image.png" alt="">
+              <input class="input-image-contents" for="image" name="image" accept="image/jpeg, image/png" type="file" />
+              <img class="input-select-image" src="../public/image/select_image.png" alt="" />
             </div>
-            <input class="input-text" name="text" type="text" placeholder="レビュー(必須)">
+            <input class="input-text" name="text" type="text" placeholder="レビュー(必須)" />
             <input type="hidden" id="recipeId" name="recipeId" value="" />
             <div class="review-buttons">
               <button type="button" class="review-button close">閉じる</button>
@@ -166,10 +166,10 @@
             
             imageContainer.innerHTML = `
               <div class="recipe-details-about-image">
-              <img class="recipe-details-about-image-md" src="../public/image/top/smoke-alchol.png" alt="">
+              <img class="recipe-details-about-image-md" src="../public/image/recipe_images/${recipedata[0]["recipe_image"]}" alt="">
               <div class="recipe-details-about-user">
                 <span>投稿者</span>
-                <span><img class="recipe-details-about-user-image" src="../public/image/default_icons/wolf_man.png" alt=""></span>
+                <span><img class="recipe-details-about-user-image" src="../public/image/default_icons/${recipedata[0]["user_image"]}" alt=""></span>
                 <span>${recipedata[0]["user_name"]}</span>
               </div>
             `
@@ -204,7 +204,7 @@
 
               procedureContainer.innerHTML += `
                 <div class="recipe-details-make-procedure">
-                  <img class="recipe-details-make-procedure-image" src="../public/image/top/berry-alchol.png" alt="">
+                  <img class="recipe-details-make-procedure-image" src="../public/image/procedures/${item["procedure_image"]}" alt="">
                   <div class="recipe-details-make-procedure-about">
                     <span class="recipe-details-make-procedure-order">${item["procedure_order"]}.</span>
                     <span class="recipe-details-make-procedure-text">${item["procedure_name"]}.</span>
@@ -225,6 +225,7 @@
             fetch(`/api/recipe-detail?reviewId=${recipeId}`)
             .then(response => response.json())
             .then(reviewdata => {
+              console.log(reviewdata)
               reviewdata.forEach((item,index) => {
                 today = new Date(item["review_created_at"])
                 let year = today.getFullYear();
@@ -233,10 +234,10 @@
                 correct_day = year + "." + month + "." + day;
                 reviewContainer.innerHTML += `
                   <div class="recipe-details-reviews-single">
-                    <img class="recipe-details-reviews-single-image" src="../public/image/top/berry-alchol.png" alt="">
+                    <img class="recipe-details-reviews-single-image" src="../public/image/reviews/${item["review_image"]}" alt="">
                     <div class="recipe-details-reviews-single-user">
                       <div>
-                        <img class="recipe-details-reviews-single-user-image" src="../public/image/default_icons/wolf_man.png" alt="">
+                        <img class="recipe-details-reviews-single-user-image" src="../public/image/default_icons/${item["user_image"]}" alt="">
                       </div>
                       <div class="recipe-details-reviews-single-user-name-info">
                         <div class="recipe-details-reviews-single-user-name">${item["user_name"]}</div>

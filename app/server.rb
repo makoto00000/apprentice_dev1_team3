@@ -267,7 +267,7 @@ server.mount_proc("/api/recipe-detail") do |req, res|
     when 'GET'
         if recipeId 
             # results = db_client.query("SELECT LiqRecipe.recipes.id as recipe_id, LiqRecipe.recipes.name as recipe_name, LiqRecipe.recipes.image as recipe_image, LiqRecipe.ing.id as ingredients_id, LiqRecipe.ing.order_num as ingredients_order, LiqRecipe.ing.name as ingredients_name, LiqRecipe.ing.amount as ingredients_amount, LiqRecipe.pro.id as procedure_id, LiqRecipe.pro.order_num as procedure_order, LiqRecipe.pro.procedure_text as procedure_name, LiqRecipe.pro.image as procedure_image, LiqRecipe.tas.name as taste_name, LiqRecipe.liq.name as liquor_name, LiqRecipe.users.name as user_name FROM LiqRecipe.recipes join LiqRecipe.ingredients as ing on LiqRecipe.ing.recipe_id = LiqRecipe.recipes.id join LiqRecipe.procedures as pro on LiqRecipe.pro.recipe_id = LiqRecipe.recipes.id join LiqRecipe.liquors as liq on LiqRecipe.liq.id = LiqRecipe.recipes.liquor_id join LiqRecipe.tastes as tas on LiqRecipe.tas.id = LiqRecipe.recipes.taste_id join LiqRecipe.users on LiqRecipe.users.id = LiqRecipe.recipes.user_id WHERE LiqRecipe.recipes.id = #{recipeId}")
-            results = db_client.query("SELECT LiqRecipe.recipes.id as recipe_id, LiqRecipe.recipes.name as recipe_name, LiqRecipe.recipes.point as recipe_point, LiqRecipe.recipes.summary as recipe_summary, LiqRecipe.recipes.image as recipe_image, LiqRecipe.tas.name as taste_name, LiqRecipe.liq.name as liquor_name, LiqRecipe.users.name as user_name FROM LiqRecipe.recipes join LiqRecipe.liquors as liq on LiqRecipe.liq.id = LiqRecipe.recipes.liquor_id join LiqRecipe.tastes as tas on LiqRecipe.tas.id = LiqRecipe.recipes.taste_id join LiqRecipe.users on LiqRecipe.users.id = LiqRecipe.recipes.user_id WHERE LiqRecipe.recipes.id = #{recipeId}")
+            results = db_client.query("SELECT LiqRecipe.recipes.id as recipe_id, LiqRecipe.recipes.name as recipe_name, LiqRecipe.recipes.point as recipe_point, LiqRecipe.recipes.summary as recipe_summary, LiqRecipe.recipes.image as recipe_image, LiqRecipe.tas.name as taste_name, LiqRecipe.liq.name as liquor_name, LiqRecipe.users.name as user_name, LiqRecipe.users.image as user_image FROM LiqRecipe.recipes join LiqRecipe.liquors as liq on LiqRecipe.liq.id = LiqRecipe.recipes.liquor_id join LiqRecipe.tastes as tas on LiqRecipe.tas.id = LiqRecipe.recipes.taste_id join LiqRecipe.users on LiqRecipe.users.id = LiqRecipe.recipes.user_id WHERE LiqRecipe.recipes.id = #{recipeId}")
         elsif ingredientId
             results = db_client.query("SELECT LiqRecipe.ing.id as ingredients_id, LiqRecipe.ing.order_num as ingredients_order, LiqRecipe.ing.name as ingredients_name, LiqRecipe.ing.amount as ingredients_amount FROM LiqRecipe.ingredients as ing WHERE LiqRecipe.ing.recipe_id = #{ingredientId}")
         elsif procedureId
@@ -309,7 +309,7 @@ server.mount_proc("/api/review") { |req, res|
     end
     puts image
     # リダイレクト
-    res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/detail?recipeId=1')
+    res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/detail?recipeId=#{recipeId}')
 }
 
 # シャットダウン
