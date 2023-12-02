@@ -55,12 +55,18 @@ server.mount_proc("/detail") { |req, res|
 server.mount_proc("/api/login") { |req, res| 
     email = req.query['email']
     password = req.query['password']
-    user = db_client.query("SELECT * FROM LiqRecipe.users WHERE email = '#{email}' AND password = '#{password}'").first
+    user = db_client.query("SELECT LiqRecipe.users.id, LiqRecipe.users.name, LiqRecipe.users.image FROM LiqRecipe.users WHERE email = '#{email}' AND password = '#{password}'").first
     
     if user
         # ログイン成功
         session_id = SecureRandom.uuid
-        sessions[session_id] = user['id']
+        sessions[session_id] = {
+            "user" => {
+                "id" => user['id'],
+                "name" => user['name'],
+                "image" => user['image']
+            }
+        }
         
         # セッションIDとユーザーIDをデータベースに保存
         # db_client.query("INSERT INTO user_sessions (session_id, user_id) VALUES ('#{session_id}', #{user['id']})")
@@ -70,7 +76,7 @@ server.mount_proc("/api/login") { |req, res|
         
         # リダイレクト
         res.body = JSON.generate({"message": "ユーザー登録完了"})
-        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/login')
+        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/recipes')
     else
         # ログイン失敗
         res.status = 401
@@ -90,7 +96,7 @@ server.mount_proc("/api/logout") { |req, res|
         # db_client.query("DELETE FROM user_sessions WHERE session_id = '#{session_id}'")
 
         res.body = 'Logout successful'
-        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/sample')
+        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/recipes')
 
     else
         res.body = 'Not logged in'
@@ -105,7 +111,7 @@ server.mount_proc("/api/signup") { |req, res|
     IMAGES = ["wolf_man.png", "dracula.png", "frankenstein.png", "man.png", "woman.png"]
     image = IMAGES[rand(IMAGES.length)]
     
-    user = db_client.query("SELECT * FROM LiqRecipe.users WHERE email = '#{email}' AND password = '#{password}'").first
+    user = db_client.query("SELECT LiqRecipe.users.id, LiqRecipe.users.name, LiqRecipe.users.image FROM LiqRecipe.users WHERE email = '#{email}' AND password = '#{password}'").first
     
     if user
         # すでに登録済
@@ -116,10 +122,16 @@ server.mount_proc("/api/signup") { |req, res|
         db_client.query("INSERT INTO LiqRecipe.users (name, email, password, image) VALUES ('#{name}', '#{email}', '#{password}', '#{image}')")
 
         # ログイン
-        user = db_client.query("SELECT * FROM LiqRecipe.users WHERE email = '#{email}' AND password = '#{password}'").first
+        user = db_client.query("SELECT LiqRecipe.users.id, LiqRecipe.users.name, LiqRecipe.users.image FROM LiqRecipe.users WHERE email = '#{email}' AND password = '#{password}'").first
         
         session_id = SecureRandom.uuid
-        sessions[session_id] = user['id']
+        sessions[session_id] = {
+            "user" => {
+                "id" => user['id'],
+                "name" => user['name'],
+                "image" => user['image']
+            }
+        }
         
         # セッションIDとユーザーIDをデータベースに保存
         # db_client.query("INSERT INTO user_sessions (session_id, user_id) VALUES ('#{session_id}', #{user['id']})")
@@ -128,7 +140,7 @@ server.mount_proc("/api/signup") { |req, res|
         res.cookies << WEBrick::Cookie.new('session_id', session_id)
         
         # リダイレクト
-        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/')
+        res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/recipes')
     end
 }
 
@@ -137,9 +149,9 @@ server.mount_proc '/api/get_current_user' do |req, res|
     session_id = req.cookies.find { |c| c.name == 'session_id' }&.value
     
     if sessions[session_id]
-        user_id = sessions[session_id]
-        # データベースからユーザー情報を取得
-        user = db_client.query("SELECT * FROM LiqRecipe.users WHERE id = #{user_id}").first
+
+        user = sessions[session_id]
+        puts sessions[session_id]["user"]["id"]
         if user
             res.body = JSON.generate(user)
         else
@@ -288,7 +300,7 @@ server.mount_proc("/api/review") { |req, res|
     session_id = req.cookies.find { |c| c.name == 'session_id' }&.value
     
     if sessions[session_id]
-        user_id = sessions[session_id]
+        user_id = sessions[session_id]["user"]["id"]
 
         db_client.query("INSERT INTO LiqRecipe.reviews (content, image, user_id, recipe_id) VALUES ('#{text}', '#{image}', '#{user_id}', '#{recipeId}')")
     else

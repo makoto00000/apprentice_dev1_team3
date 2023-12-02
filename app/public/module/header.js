@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (isLoggedIn) {
     const response = await fetch('/api/get_current_user')
     const data = await response.json()
-    user = JSON.stringify(data, null, 2)
+    user = JSON.stringify(data["user"], null, 2)
     userdata = JSON.parse(user)
     writeRecipeLink.style.display = "block";
     userIcon.style.display = "block";
