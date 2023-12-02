@@ -4,7 +4,9 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    image TEXT
+    image TEXT,
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp
 );
 
 -- リキュールテーブル
@@ -23,12 +25,15 @@ CREATE TABLE tastes (
 CREATE TABLE recipes (
     id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name TEXT NOT NULL,
+    summary TEXT,
     description TEXT NOT NULL,
     point TEXT,
     image TEXT NOT NULL,
     user_id BIGINT NOT NULL,
     liquor_id BIGINT NOT NULL,
     taste_id BIGINT NOT NULL,
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (liquor_id) REFERENCES liquors(id),
     FOREIGN KEY (taste_id) REFERENCES tastes(id)
@@ -41,6 +46,8 @@ CREATE TABLE reviews (
     image TEXT,
     user_id BIGINT NOT NULL,
     recipe_id BIGINT NOT NULL,
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (recipe_id) REFERENCES recipes(id)
 );
@@ -51,6 +58,8 @@ CREATE TABLE ingredients (
     name VARCHAR(255) NOT NULL,
     amount VARCHAR(255) NOT NULL,
     recipe_id BIGINT NOT NULL,
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp,
     FOREIGN KEY (recipe_id) REFERENCES recipes(id)
 );
 
@@ -61,31 +70,33 @@ CREATE TABLE procedures (
     procedure_text TEXT NOT NULL,
     image TEXT,
     recipe_id BIGINT NOT NULL,
+    created_at datetime default current_timestamp,
+    updated_at datetime default current_timestamp,
     FOREIGN KEY (recipe_id) REFERENCES recipes(id)
 );
 
 INSERT INTO users (id, name, email, password, image) VALUES
-    (1, 'JohnDoe', 'john.doe@example.com', 'password123', 'wolf_man.png'),
-    (2, 'AliceSmith', 'alice.smith@example.com', 'securepass456', 'dracula.png'),
-    (3, 'BobJohnson', 'bob.johnson@example.com', 'userpass789', 'frankenstein.png'),
-    (4, 'EmilyBrown', 'emily.brown@example.com', 'mypassword10', 'man.png'),
-    (5, 'CharlieWhite', 'charlie.white@example.com', 'pass1234', 'woman.png'),
-    (6, 'OliviaJones', 'olivia.jones@example.com', 'securepass789', 'wolf_man.png'),
-    (7, 'JamesWilson', 'james.wilson@example.com', 'password567', 'dracula.png'),
-    (8, 'SophiaMiller', 'sophia.miller@example.com', 'userpass890', 'frankenstein.png'),
-    (9, 'DanielDavis', 'daniel.davis@example.com', 'mypassword20', 'man.png'),
-    (10, 'AvaGarcia', 'ava.garcia@example.com', 'pass5678', 'woman.png'),
-    (11, 'LiamMartinez', 'liam.martinez@example.com', 'securepass123', 'wolf_man.png'),
-    (12, 'EmmaRodriguez', 'emma.rodriguez@example.com', 'password890', 'dracula.png'),
-    (13, 'MiaLopez', 'mia.lopez@example.com', 'userpass234', 'frankenstein.png'),
-    (14, 'NoahTaylor', 'noah.taylor@example.com', 'mypassword30', 'man.png'),
-    (15, 'AveryTurner', 'avery.turner@example.com', 'pass6789', 'woman.png'),
-    (16, 'LoganWard', 'logan.ward@example.com', 'securepass456', 'wolf_man.png'),
-    (17, 'EllaCooper', 'ella.cooper@example.com', 'password234', 'dracula.png'),
-    (18, 'JacksonBaker', 'jackson.baker@example.com', 'userpass567', 'frankenstein.png'),
-    (19, 'GraceReed', 'grace.reed@example.com', 'mypassword40', 'man.png'),
-    (20, 'LucasWright', 'lucas.wright@example.com', 'pass7890', 'woman.png'),
-    (21, 'admin', 'admin@email.com', '1234', 'wolf_man.png');
+(1, 'JohnDoe', 'john.doe@example.com', 'password123', 'wolf_man.png'),
+(2, 'AliceSmith', 'alice.smith@example.com', 'securepass456', 'dracula.png'),
+(3, 'BobJohnson', 'bob.johnson@example.com', 'userpass789', 'frankenstein.png'),
+(4, 'EmilyBrown', 'emily.brown@example.com', 'mypassword10', 'man.png'),
+(5, 'CharlieWhite', 'charlie.white@example.com', 'pass1234', 'woman.png'),
+(6, 'OliviaJones', 'olivia.jones@example.com', 'securepass789', 'wolf_man.png'),
+(7, 'JamesWilson', 'james.wilson@example.com', 'password567', 'dracula.png'),
+(8, 'SophiaMiller', 'sophia.miller@example.com', 'userpass890', 'frankenstein.png'),
+(9, 'DanielDavis', 'daniel.davis@example.com', 'mypassword20', 'man.png'),
+(10, 'AvaGarcia', 'ava.garcia@example.com', 'pass5678', 'woman.png'),
+(11, 'LiamMartinez', 'liam.martinez@example.com', 'securepass123', 'wolf_man.png'),
+(12, 'EmmaRodriguez', 'emma.rodriguez@example.com', 'password890', 'dracula.png'),
+(13, 'MiaLopez', 'mia.lopez@example.com', 'userpass234', 'frankenstein.png'),
+(14, 'NoahTaylor', 'noah.taylor@example.com', 'mypassword30', 'man.png'),
+(15, 'AveryTurner', 'avery.turner@example.com', 'pass6789', 'woman.png'),
+(16, 'LoganWard', 'logan.ward@example.com', 'securepass456', 'wolf_man.png'),
+(17, 'EllaCooper', 'ella.cooper@example.com', 'password234', 'dracula.png'),
+(18, 'JacksonBaker', 'jackson.baker@example.com', 'userpass567', 'frankenstein.png'),
+(19, 'GraceReed', 'grace.reed@example.com', 'mypassword40', 'man.png'),
+(20, 'LucasWright', 'lucas.wright@example.com', 'pass7890', 'woman.png'),
+(21, 'admin', 'admin@email.com', '1234', 'wolf_man.png');
 
 INSERT INTO liquors (id, name) VALUES
 (1, 'ワイン'),
@@ -109,7 +120,7 @@ INSERT INTO tastes (id, name) VALUES
 (5, 'シトラス'),
 (6, 'ビター');
 
-INSERT INTO recipes (id, name, description, point, image, user_id, liquor_id, taste_id) VALUES
+INSERT INTO recipes (id, name, summary, point, image, user_id, liquor_id, taste_id) VALUES
 (1, 'フルーティーワインパンチ', 'ワインベースの爽やかなパンチ', '氷をたっぷりと入れて楽しむ', 'sangria-4469553_1280.jpg', 4, 1, 4),
 (2, 'スパイシージントニック', 'ジンとスパイスが効いた辛口トニック', 'スターアニスをトニックに浸すと香りが引き立つ', 'gin-tonic-2018112_1280.jpg', 3, 7, 2),
 (3, 'シトラスフレッシュビール', 'ビールで楽しむシトラスフレッシュ', 'オレンジピールを軽く絞り入れると爽やかな香りが広がる', 'photo-1558645836-e44122a743ee.jpg', 5, 2, 5),
