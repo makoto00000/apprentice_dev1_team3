@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loginMessage.textContent = data.message;
         throw new Error('Network response was not ok');
       } else {
-        window.location.href = "/sample";
+        window.location.href = "/recipes";
       }
 
 
