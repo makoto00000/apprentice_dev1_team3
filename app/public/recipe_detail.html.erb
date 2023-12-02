@@ -83,13 +83,49 @@
           </div>
         </div> %>
       </div>
-      <button class="button_write button_write_review">レビューを書く</button>
+      <button id="modalBtn" class="button_write button_write_review">レビューを書く</button>
+      <div id="myModal" class="modal">
+        <div class="modal-content modal-review">
+          <div class="modal-review-title">レビュー投稿</div>
+          <form action="">
+            <div class="input-image" >
+              <input class="input-image-contents" for="image" name="image" accept="image/jpeg, image/png" type="file" >
+              <img src="../public/image/select_image.png" alt="">
+            </div>
+            <input class="input-text" name="text" type="text">
+            <button class="button close">閉じる</button>
+            <button type="submit" class="button">投稿する</button>
+          </form>
+        </div>
+      </div>
       <button class="button_write button_more_review">もっと見る(100件)</button>
     </div>
   </div>
+
 </main>
 
 <script>
+  let modal = document.getElementById("myModal");
+  let btn = document.getElementById("modalBtn");
+  let span = document.getElementsByClassName("close")[0];
+
+  // ボタンをクリックするとモーダルを開く
+  btn.onclick = function() {
+      modal.style.display = "block";
+  }
+
+  // <span> (x) をクリックするとモーダルを閉じる
+  span.onclick = function() {
+      modal.style.display = "none";
+  }
+
+  // モーダルの外側をクリックすると閉じる
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
       const queryString = window.location.search;
       const urlParams = new URLSearchParams(queryString);
