@@ -85,6 +85,15 @@
             } else {
               recipeContainer.className = 'recipes_recipe_container';
             }
+
+            // 追加した要素には:hoverが効かないため以下を記述
+            recipeContainer.addEventListener('mouseover', function () {
+              recipeContainer.style.scale = 1.2; 
+            });
+
+            recipeContainer.addEventListener('mouseout', function () {
+              recipeContainer.style.scale = 1.0;
+            });
             
             recipeContainer.innerHTML = 
               `<div class="recipes_recipe_image">
@@ -95,7 +104,10 @@
             recipesContainer.appendChild(recipeContainer);
           });
           
-          if (data.length === limit) {
+          if (data.length === 0) {
+            recipesContainer.innerHTML =
+              `<div class="no_recipe_message">該当するレシピはありません</div>`;
+          } else if (data.length === limit) {
             loadMoreButtonContainer.style.display = 'block';
             // 最後の4件分を半透明にする
             opacities.forEach(opacityNum => {
@@ -104,6 +116,7 @@
           } else {
             loadMoreButtonContainer.style.display = 'none';
           }
+
           // スクロール位置が追加された要素の下端になってしまうため、ボタンを押した時点でのスクロール位置+800pxの位置に戻す
           if (offset > 0) {
             window.scrollTo({behavior: "instant", left: 0, top: scrollPosition+800,});
