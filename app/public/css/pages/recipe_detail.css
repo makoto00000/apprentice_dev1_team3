@@ -1,0 +1,198 @@
+.recipe-details{
+  width: 700px;
+  max-width: 700px;
+  margin: 100px auto;
+}
+
+.recipe-details-about{
+  display: flex;
+  justify-content: center;
+}
+
+.recipe-details-about-image-md {
+  width: 300px;
+}
+
+.recipe-details-about-user {
+ font-size: 10px; 
+ text-align: right;
+}
+
+.recipe-details-about-user-image {
+  width: 15px;
+ }
+
+ .recipe-details-about-wrap{
+  width: 60%;
+  margin: 0 0 0 3%;
+ }
+
+ .recipe-details-genre{
+  width: 15px;
+ }
+
+.recipe-details-about-wrap-name-bl{
+  text-weight: bold;
+  font-size: 15px;
+  margin: 1% 0;
+}
+
+.recipe-details-about-wrap-name-sm{
+  font-size: 10px;
+  margin: 2% 0;
+}
+
+
+.recipe-details-about-wrap-ingredients-title{
+  text-weight: bold;
+  font-size: 15px;
+  margin: 2% 0;
+}
+
+.recipe-details-about-wrap-ingredients hr{
+  color: 	#C8C8C8;
+}
+
+.recipe-details-about-wrap-ingredient{
+  font-size: 10px;
+  margin: 1% 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.recipe-details-make-title, .recipe-details-point-title, .recipe-details-reviews-title{
+  text-weight: bold;
+  font-size: 18px;
+  margin: 2% 0;
+}
+
+.recipe-details-make-procedures hr{
+  margin: 2% 0;
+}
+
+.recipe-details-make-procedures hr{
+  color: 	#C8C8C8;
+}
+
+.recipe-details-make-procedure{
+  display:flex;
+  justify-content: start;
+}
+
+.recipe-details-make-procedure-image{
+  width: 100px;
+  /* height:120px; */
+  display:block;
+}
+
+.recipe-details-make-procedure-image-none{
+  width: 100px;
+  /* height:120px; */
+  display:block;
+}
+
+.recipe-details-make-procedure-about{
+  padding: 5% 0;
+  margin: 0 0 0 3%;
+}
+
+.recipe-details-make-procedure-order{
+  font-weight: bold;
+}
+
+/* .recipe-details-make-procedure-text{
+
+} */
+
+.recipe-details-point{
+  margin-top: 3%;
+}
+
+.recipe-details-reviews-number{
+  font-size: 10px;
+}
+
+.recipe-details-reviews-multi{
+  display: flex;
+  flex-wrap: wrap;
+  /* align-items: center;
+  justify-content: center; */
+  /* width: 500px; */
+  /* width: 100%; */
+}
+
+.recipe-details-reviews-single{
+  width: 18%;
+  margin: 2% 3%;
+}
+
+.recipe-details-reviews-single-image{
+  width: 90%;
+}
+
+.recipe-details-reviews-single-user{
+  display: flex;
+  justify-content: start;
+}
+
+.recipe-details-reviews-single-user-image{
+  width: 25px;
+  margin: 2% 0 0 0; 
+}
+
+.recipe-details-reviews-single-user-name{
+  font-size: 10px;
+}
+
+.recipe-details-reviews-single-user-date{
+  font-size: 8px;
+}
+
+.recipe-details-reviews-single-user-name-info{
+  margin: 0 0 0 1%;
+}
+
+.recipe-details-reviews-single-user-contents{
+  font-size: 10px;
+}
+
+
+.button_write{
+  display: block;
+  width: 250px;
+  height: 70px;
+  background: #e82401;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 50px auto;
+  padding: 0 auto ;
+  text-align:center;  
+}
+.button_write_review{
+  background: #e82401;
+  color: #fff;
+}
+
+.button_more_review{
+  background-color: #BBBBBB;
+  color: #000000;
+}
+
+.input-image {
+  position: relative;
+  width: 250px;
+}
+
+.input-image img {
+  width: 100%;
+}
+
+.input-image-contents {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}

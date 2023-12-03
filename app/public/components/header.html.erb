@@ -9,7 +9,7 @@
 <body>
   <header class="header">
     <div class="header_left">
-      <div class="header_logo"><a href="/">
+      <div class="header_logo"><a href="/recipes">
         <img src="./public/image/logo.png" alt="logo">
       </a>
       </div>
@@ -34,6 +34,7 @@
           <a>ログイン</a>
         </button>
       </div>
+      <%# srcにはログインユーザーのアイコンが入る %>
       <div class="user_icon" id="user_icon" onclick="Auth.logoutUser()">
         <img src="" alt="user icon" id="user_icon_image">
       </div>
@@ -41,27 +42,41 @@
   </header> 
   <div class="hover_menu" id="kinds">
     <div class="categories">
-      <div class="category"><img src="./public/image/wine_icon.png" alt=""><a>ワイン</a></div>
-      <div class="category"><img src="./public/image/beer_icon.png" alt=""><a>ビール</a></div>
-      <div class="category"><img src="./public/image/japanese_sake_icon.png" alt=""><a>日本酒</a></div>
-      <div class="category"><img src="./public/image/shochu_icon.png" alt=""><a>焼酎</a></div>
-      <div class="category"><img src="./public/image/whiskey_icon.png" alt=""><a>ウイスキー</a></div>
-      <div class="category"><img src="./public/image/brandy_icon.png" alt=""><a>ブランデー</a></div>
-      <div class="category"><img src="./public/image/gin_icon.png" alt=""><a>ジン</a></div>
-      <div class="category"><img src="./public/image/vodka_icon.png" alt=""><a>ウォッカ</a></div>
-      <div class="category"><img src="./public/image/rum_icon.png" alt=""><a>ラム</a></div>
-      <div class="category"><img src="./public/image/tequila_icon.png" alt=""><a>テキーラ</a></div>
-      <div class="category"><img src="./public/image/fruit_wine_icon.png" alt=""><a>果実酒</a></div>
-      <div class="category"><img src="./public/image/other_liqueur_icon.png" alt=""><a>リキュール</a></div>
+      <% 
+      liquors = [
+        {:id => 1, :name => 'ワイン', :src => "wine_icon.png"},
+        {:id => 2, :name => 'ビール', :src => "beer_icon.png"},
+        {:id => 3, :name => '日本酒', :src => "japanese_sake_icon.png"},
+        {:id => 4, :name => '焼酎', :src => "shochu_icon.png"},
+        {:id => 5, :name => 'ウイスキー', :src => "whiskey_icon.png"},
+        {:id => 6, :name => 'ブランデー', :src => "brandy_icon.png"},
+        {:id => 7, :name => 'ジン', :src => "gin_icon.png"},
+        {:id => 8, :name => 'ウォッカ', :src => "vodka_icon.png"},
+        {:id => 9, :name => 'ラム', :src => "rum_icon.png"},
+        {:id => 10, :name => 'テキーラ', :src => "tequila_icon.png"},
+        {:id => 11, :name => '果実酒', :src => "fruit_wine_icon.png"},
+        {:id => 12, :name => 'リキュール', :src => "other_liquor_icon.png"},
+      ]
+      liquors.each do |liquor|
+      %>
+      <div class="category"><a href="/recipes?liquorId=<%= liquor[:id] %>"><img src="./public/image/<%= liquor[:src] %>" alt=""><%= liquor[:name] %></a></div>
+      <% end %>
     </div>
   </div>
   <div class="hover_menu" id="tastes">
     <div class="categories">
-      <div class="category"><img src="./public/image/sweet_taste_image.png" alt=""><a>甘口</a></div>
-      <div class="category"><img src="./public/image/soda_image.png" alt=""><a>炭酸</a></div>
-      <div class="category"><img src="./public/image/fruity_image.png" alt=""><a>フルーティー</a></div>
-      <div class="category"><img src="./public/image/spicy_image.png" alt=""><a>辛口</a></div>
-      <div class="category"><img src="./public/image/citrus_image.png" alt=""><a>シトラス</a></div>
-      <div class="category"><img src="./public/image/bitter_image.png" alt=""><a>ビター</a></div>
+      <% 
+      tastes = [
+        {:id => 1, :name => '甘口', :src => "sweet_taste_image.png"},
+        {:id => 2, :name => '辛口', :src => "spicy_image.png"},
+        {:id => 3, :name => '炭酸', :src => "soda_image.png"},
+        {:id => 4, :name => 'フルーティー', :src => "citrus_image.png"},
+        {:id => 5, :name => 'シトラス', :src => "whiskey_icon.png"},
+        {:id => 6, :name => 'ビター', :src => "bitter_image.png"},
+      ]
+      tastes.each do |liquor|
+      %>
+      <div class="category"><a href="/recipes?tasteId=<%= liquor[:id] %>"><img src="./public/image/<%= liquor[:src] %>" alt=""><%= liquor[:name] %></a></div>
+      <% end %>
     </div>
   </div>

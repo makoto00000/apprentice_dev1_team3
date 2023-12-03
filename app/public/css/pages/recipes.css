@@ -1,0 +1,153 @@
+.recipes_container {
+  width: 100%;
+}
+
+.recipes_header h1 {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: 10px;
+  text-align: center;
+  padding: 100px 0 50px;
+  border-bottom: 3px solid #D2D2D2;
+  margin-bottom: 100px;
+}
+
+.recipes_sort_relative {
+  position: relative;
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.recipes_sort_container {
+  font-size: 22px;
+  letter-spacing: 4.4px;
+  position: absolute;
+  bottom: 165px;
+  right: 0;
+  cursor: pointer;
+}
+
+.recipes_dli-chevron-down {
+  display: inline-block;
+  vertical-align: baseline;
+  color: #E82401;
+  line-height: 1;
+  width: 1em;
+  height: 1em;
+  border: 0.2em solid currentColor;
+  border-left: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+  transform: translateY(-25%) rotate(135deg);
+  margin-left: 10px;
+}
+
+.recipes_recipes_container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 1100px;
+  position: relative;
+}
+
+.recipes_recipe_container {
+  width: 200px;
+  margin-right: 100px;
+  margin-bottom: 100px;
+  cursor: pointer;
+  transition: all .3s ease-out;
+}
+
+.recipes_recipe_container:nth-child(4n+1) {
+  margin-right: 0;
+}
+
+.recipes_recipe_image {
+  position: relative;
+  height: 200px;
+  width: 200px;
+}
+
+.recipes_recipe_image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.recipes_recipe_tag {
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  font-weight: bold;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  background: rgba(256, 256, 256, 0.8);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.recipes_recipe_tag img {
+  width: 9px;
+  margin-right: 4px;
+
+}
+
+.recipes_recipe_name {
+  font-size: 18px;
+  letter-spacing: 1px;
+  line-height: 180%;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.recipes_contents {
+  position: relative;
+}
+
+.recipes_more_load_button_container {
+  padding: 100px 0;
+  position: absolute;
+  bottom: 150px;
+  width: 100%;
+  text-align: center;
+  display: none;
+  z-index: 9999;
+}
+
+.recipes_more_load_button {
+  background: #E82401;
+  color: #fff;
+  font-size: 22px;
+  letter-spacing: 2px;
+  font-weight: bold;
+  padding: 26px 56px;
+  border-radius: 10px;
+}
+
+.fade_up {
+  opacity: 0;
+  transform: translateY(100px);
+  animation: fadeUpAnime 0.5s ease forwards; /* アニメーションの設定 */
+  }
+  
+  @keyframes fadeUpAnime{
+    from {
+      opacity: 0;
+    transform: translateY(100px);
+    }
+  
+    to {
+      opacity: 1;
+    transform: translateY(0);
+    }
+  }
+
+  .no_recipe_message {
+    font-size: 40px;
+
+    width: 100%;
+    text-align: center;
+  }

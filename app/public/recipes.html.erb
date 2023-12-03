@@ -1,0 +1,147 @@
+<%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_header_out').result(binding) %>
+
+<main class="recipes_container">
+  <div class="recipes_header">
+    <h1 id="search_title">レシピ一覧</h1>
+    <div class="recipes_sort_relative">
+      <div class="recipes_sort_container">新着順<span class="recipes_dli-chevron-down"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="recipes_recipes_container" id="recipes_recipes_container">
+    <div class="recipes_more_load_button_container" id="recipes_more_load_button_container">
+        <button class="recipes_more_load_button" id="recipes_more_load_button">さらに読み込む</button>
+    </div>
+
+    <%# ここに以下の形式でレシピが表示される %>
+    <%# <div class="recipes_recipe_container">
+      <div class="recipes_recipe_image">
+        <img src="./public/image/recipe_images/レシピ写真ファイル名" alt="">
+        <div class="recipes_recipe_tag"><img src="./public/image/tag_icon.png" alt="">お酒名</div>
+      </div>
+      <div class="recipes_recipe_name">レシピ名</div>
+    </div> %>
+    
+  </div>
+</main>
+
+<script>
+  let offset = 0;
+  let limit = 20;
+  let opacities = [18, 19, 20, 21]
+  let liquorNames = ['ワイン', 'ビール', '日本酒', '焼酎', 'ウイスキー', 'ブランデー', 'ジン', 'ウォッカ', 'ラム', 'テキーラ', '果実酒', 'リキュール']
+  let tasteNames = ['甘口', '辛口', '炭酸', 'フルーティー', 'シトラス', 'ビター']
+  document.addEventListener('DOMContentLoaded', function () {
+    const searchTitle = document.getElementById('search_title');
+    const recipesContainer = document.getElementById('recipes_recipes_container');
+    const loadMoreButtonContainer = document.getElementById('recipes_more_load_button_container');
+    const loadMoreButton = document.getElementById('recipes_more_load_button');
+
+
+    // データを取得して表示する関数
+    function loadData() {
+      // 現在のURLからクエリ文字列を取得
+      const queryString = window.location.search;
+      // クエリ文字列からパラメータを取得
+      const urlParams = new URLSearchParams(queryString);
+
+      // 特定のクエリパラメータの値を取得
+      const liquorId = urlParams.get('liquorId');
+      const tasteId = urlParams.get('tasteId');
+      const searchWord = urlParams.get('searchWord');
+      let endPoint
+      const scrollPosition = window.scrollY || window.pageYOffset;
+
+
+      // クエリパラメーターによってエンドポイントを分岐
+      if (liquorId) {
+        // お酒検索
+        endPoint = `/api/recipes?offset=${offset}&liquorId=${liquorId}`
+        searchTitle.textContent = `${liquorNames[liquorId-1]}のレシピ一覧`
+
+      } else if (tasteId) {
+        // ワード検索
+        endPoint = `/api/recipes?offset=${offset}&tasteId=${tasteId}`
+        searchTitle.textContent = `${tasteNames[tasteId-1]}のレシピ一覧`
+
+      } else if (searchWord) {
+        // ワード検索
+        endPoint = `/api/recipes?offset=${offset}&searchWord=${searchWord}`
+        searchTitle.textContent = `${searchWord}のレシピ一覧`
+
+      } else {
+        // 一覧表示
+        endPoint = `/api/recipes?offset=${offset}`    
+      }
+      fetch(endPoint)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach((item,index) => {
+            // HTMLに20件分のデータを出力
+            const recipeContainer = document.createElement('div');
+            if (offset > 0 && index < 16) {
+              recipeContainer.className = 'fade_up recipes_recipe_container';
+            } else {
+              recipeContainer.className = 'recipes_recipe_container';
+            }
+
+            // 追加した要素には:hoverが効かないため以下を記述
+            recipeContainer.addEventListener('mouseover', function () {
+              recipeContainer.style.scale = 1.2; 
+            });
+
+            recipeContainer.addEventListener('mouseout', function () {
+              recipeContainer.style.scale = 1.0;
+            });
+            
+            recipeContainer.innerHTML = 
+              `<div class="recipes_recipe_image">
+                <a href="/detail?recipeId=${item.id}">
+                  <img src="./public/image/recipe_images/${item.recipe_image}" alt="">
+                  <div class="recipes_recipe_tag"><img src="./public/image/tag_icon.png" alt="">${item.liquor_name}</div>
+                </a>
+              </div>
+              <div class="recipes_recipe_name">${item.recipe_name}</div>`;
+            recipesContainer.appendChild(recipeContainer);
+          });
+          
+          if (data.length === 0) {
+            recipesContainer.innerHTML =
+              `<div class="no_recipe_message">該当するレシピはありません</div>`;
+          } else if (data.length === limit) {
+            loadMoreButtonContainer.style.display = 'block';
+            // 最後の4件分を半透明にする
+            opacities.forEach(opacityNum => {
+              document.querySelector(`.recipes_recipe_container:nth-child(${opacityNum})`).style.opacity = '0.3'
+            })
+          } else {
+            loadMoreButtonContainer.style.display = 'none';
+          }
+
+          // スクロール位置が追加された要素の下端になってしまうため、ボタンを押した時点でのスクロール位置+800pxの位置に戻す
+          if (offset > 0) {
+            window.scrollTo({behavior: "instant", left: 0, top: scrollPosition+800,});
+          }
+        });
+    }
+
+    // 初回ロード
+    loadData();
+
+    // 「さらに読み込む」ボタンクリック時に追加データを取得して表示
+    loadMoreButton.addEventListener('click', function () {
+      opacities.forEach(opacityNum => {
+        document.querySelector(`.recipes_recipe_container:nth-child(${opacityNum})`).style.animation = 'fadeUpAnime 0.5s ease forwards'
+      })
+      offset += 20;
+      opacities.forEach((opacityNum, index, array) => {
+        array[index] = opacityNum + offset;
+      });
+      loadData();
+    });
+
+  });
+</script>
+
+<%= ERB.new(File.read('./public/components/footer.html.erb'), nil, nil, '_footer_out').result(binding) %>

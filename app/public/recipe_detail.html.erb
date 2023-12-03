@@ -1,0 +1,272 @@
+<%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_header_out').result(binding) %>
+
+<main>
+  <div class="recipe-details">
+    <div id="recipe-details-about" class="recipe-details-about">
+      <div id="recipe-details-about-image" class="recipe-details-about-image">
+          <%# <img class="recipe-details-about-image-md" src="../public/image/top/smoke-alchol.png" alt="">
+          <div class="recipe-details-about-user">
+            <span>投稿者</span>
+            <span><img class="recipe-details-about-user-image" src="../public/image/default_icons/wolf_man.png" alt=""></span>
+            <span>ユーザーネーム</span>
+          </div> %>
+      </div>
+      <div id="recipe-details-about-wrap" class="recipe-details-about-wrap">
+        <div id="recipe-details-about-wrap-name" class="recipe-details-about-wrap-name">
+          <%# <div class="recipe-details-about-wrap-name-genre">
+            <span><img class="recipe-details-genre" src="../public/image/tag_icon.png" alt=""></span>
+            <span>ウイスキー</span>
+          </div>
+          <div class="recipe-details-about-wrap-name-bl">
+            アイリッシュコーヒー
+          </div>
+          <div class="recipe-details-about-wrap-name-sm">
+            コーヒーの上に生クリームまたはホイップクリームを浮かべた。アイリッシュウイスキーをベースとしたカクテルです。
+          </div> %>
+        </div>
+        <div id="recipe-details-about-wrap-ingredients" class="recipe-details-about-wrap-ingredients">
+          <div class="recipe-details-about-wrap-ingredients-title">材料</div>
+          <%# <div class="recipe-details-about-wrap-ingredient">
+            <div>コーヒー(深めの焙煎前使用)</div>
+            <div>120cc</div>
+          </div>
+          <hr> %>
+        </div>
+      </div>
+    </div>
+    <div class="recipe-details-make">
+        <div class="recipe-details-make-title">作り方</div>
+        <div id="recipe-details-make-procedures" class="recipe-details-make-procedures">
+          <%# <div class="recipe-details-make-procedure">
+            <img class="recipe-details-make-procedure-image" src="../public/image/top/berry-alchol.png" alt="">
+            <div class="recipe-details-make-procedure-about">
+              <span class="recipe-details-make-procedure-order">1.</span>
+              <span class="recipe-details-make-procedure-text">温めたグラスに白ザラメを入れる。</span>
+            </div>
+          </div>
+          <hr>
+          <div class="recipe-details-make-procedure">
+            <div class="recipe-details-make-procedure-image-none"></div>
+            <div class="recipe-details-make-procedure-about">
+              <span class="recipe-details-make-procedure-order">2.</span>
+              <span class="recipe-details-make-procedure-text">温めたグラスに白ザラメを入れる。</span>
+            </div>
+          </div>
+          <hr> %>
+        </div>
+    </div>
+    <div id="recipe-details-point" class="recipe-details-point">
+      <div class="recipe-details-point-title">
+        コツ・ポイント
+      </div>
+      <%# <div class="recipe-details-point-contents">
+        生クリームはしち豚でくらいの柔らかめに泡立てるのがポイント
+      </div> %>
+    </div>
+    <div class="recipe-details-reviews">
+      <div class="recipe-details-reviews-title">レビュー</div>
+      <div id="recipe-details-reviews-number" class="recipe-details-reviews-number">件のレビュー</div>
+      <div id="recipe-details-reviews-multi" class="recipe-details-reviews-multi">
+        <%# <div class="recipe-details-reviews-single">
+          <img class="recipe-details-reviews-single-image" src="../public/image/top/berry-alchol.png" alt="">
+          <div class="recipe-details-reviews-single-user">
+            <div>
+              <img class="recipe-details-reviews-single-user-image" src="../public/image/default_icons/wolf_man.png" alt="">
+            </div>
+            <div class="recipe-details-reviews-single-user-name-info">
+              <div class="recipe-details-reviews-single-user-name">ユーザー名</div>
+              <div class="recipe-details-reviews-single-user-date">20xx.xx.xx</div>
+            </div>
+          </div>
+          <div class="recipe-details-reviews-single-contents">
+            おいしかったです。
+          </div>
+        </div> %>
+      </div>
+      <button id="modalBtn" class="button_write button_write_review">レビューを書く</button>
+      <div id="myModal" class="modal">
+        <div class="modal-content modal-review">
+          <div class="modal-review-title">レビュー投稿</div>
+          <form action="/api/review" method="post">
+            <div class="input-image" >
+              <input class="input-image-contents" for="image" name="image" accept="image/jpeg, image/png" type="file" onchange="previewImage(this)"/>
+              <img id="preview" class="input-select-image" src="../public/image/select_image.png" alt="" />
+               <%# <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width:200px;"> %>
+            </div>
+            <input class="input-text" name="text" type="text" placeholder="レビュー(必須)" />
+            <input type="hidden" id="recipeId" name="recipeId" value="" />
+            <div class="review-buttons">
+              <button type="button" class="review-button close">閉じる</button>
+              <button type="submit" id="review_button" value=recipeId class="review-button">投稿する</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <%# <button class="button_write button_more_review">もっと見る</button> %>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function previewImage(obj)
+  {
+    let fileReader = new FileReader();
+    fileReader.onload = (function() {
+      document.getElementById('preview').src = fileReader.result;
+    });
+
+    fileReader.readAsDataURL(obj.files[0]);
+  }
+
+  let modal = document.getElementById("myModal");
+  let btn = document.getElementById("modalBtn");
+  let span = document.getElementsByClassName("close")[0];
+  // ボタンをクリックするとモーダルを開く
+  btn.onclick = function() {
+      modal.style.display = "block";
+  }
+
+  // <span> (x) をクリックするとモーダルを閉じる
+  span.onclick = function() {
+      modal.style.display = "none";
+  }
+
+  // モーダルの外側をクリックすると閉じる
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      const recipeId = urlParams.get('recipeId');
+      
+      document.getElementById("recipeId").value = recipeId;
+
+      const recipeImageContainer = document.getElementById("recipe-details-about-image")
+      // const wrapContainer = document.getElementById("recipe-details-about-wrap")
+      const wrapNameContainer = document.getElementById("recipe-details-about-wrap-name")
+      const wrapIngredientsContainer = document.getElementById("recipe-details-about-wrap-ingredients")
+      const wrapProceduresContainer = document.getElementById("recipe-details-make-procedures")
+      const wrapPointContainer = document.getElementById("recipe-details-point")
+      const wrapReviewContainer = document.getElementById("recipe-details-reviews-multi")
+      const ReviewNumberContainer = document.getElementById("recipe-details-reviews-number")
+      const aboutImageContainer = document.createElement('div');
+      const wrapContainer = document.createElement('div');
+      const imageContainer = document.createElement('div');
+      const ingredientContainer = document.createElement('div');
+      const procedureContainer = document.createElement('div');
+      const pointContainer = document.createElement('div');
+      const reviewContainer = document.createElement('div');
+      aboutImageContainer.className = "recipe-details-about-image"
+      reviewContainer.className = "recipe-details-reviews-multi"
+      fetch(`/api/recipe-detail?recipeId=${recipeId}`)
+      .then(response => response.json())
+      .then(recipedata => {
+        fetch(`/api/recipe-detail?ingredientId=${recipeId}`)
+        .then(response => response.json())
+        .then(ingredientdata => {
+          
+          fetch(`/api/recipe-detail?procedureId=${recipeId}`)
+          .then(response => response.json())
+          .then(proceduredata => {
+            
+            imageContainer.innerHTML = `
+              <div class="recipe-details-about-image">
+              <img class="recipe-details-about-image-md" src="../public/image/recipe_images/${recipedata[0]["recipe_image"]}" alt="">
+              <div class="recipe-details-about-user">
+                <span>投稿者</span>
+                <span><img class="recipe-details-about-user-image" src="../public/image/default_icons/${recipedata[0]["user_image"]}" alt=""></span>
+                <span>${recipedata[0]["user_name"]}</span>
+              </div>
+            `
+            recipeImageContainer.appendChild(imageContainer)
+            wrapContainer.innerHTML = `
+              <div class="recipe-details-about-wrap-name-genre">
+                <span><img class="recipe-details-genre" src="../public/image/tag_icon.png" alt=""></span>
+                <span>${recipedata[0]["taste_name"]}</span>
+              </div>
+              <div class="recipe-details-about-wrap-name-bl">
+                ${recipedata[0]["recipe_name"]}
+              </div>
+              <div class="recipe-details-about-wrap-name-sm">
+                ${recipedata[0]["recipe_summary"]}
+              </div>
+            `
+            wrapNameContainer.appendChild(wrapContainer)
+            ingredientdata.forEach((item,index) => {
+
+              ingredientContainer.innerHTML += `
+                <div class="recipe-details-about-wrap-ingredient">
+                  <div>${item["ingredients_name"]}</div>
+                  <div>${item["ingredients_amount"]}</div>
+                </div>
+                <hr>
+              `
+              
+            });
+            wrapIngredientsContainer.appendChild(ingredientContainer)
+
+            proceduredata.forEach((item,index) => {
+
+              procedureContainer.innerHTML += `
+                <div class="recipe-details-make-procedure">
+                  <img class="recipe-details-make-procedure-image" src="../public/image/procedures/${item["procedure_image"]}" alt="">
+                  <div class="recipe-details-make-procedure-about">
+                    <span class="recipe-details-make-procedure-order">${item["procedure_order"]}.</span>
+                    <span class="recipe-details-make-procedure-text">${item["procedure_name"]}.</span>
+                  </div>
+                </div>
+                <hr>
+              `
+            });
+            wrapProceduresContainer.appendChild(procedureContainer)
+
+            pointContainer.innerHTML = `
+              <div class="recipe-details-point-contents">
+                ${recipedata[0]["recipe_point"]}
+              </div>
+            `
+            wrapPointContainer.appendChild(pointContainer)
+            
+            fetch(`/api/recipe-detail?reviewId=${recipeId}`)
+            .then(response => response.json())
+            .then(reviewdata => {
+              reviewdata.forEach((item,index) => {
+                today = new Date(item["review_created_at"])
+                let year = today.getFullYear();
+                let month = ("0" + String(today.getMonth() + 1)).slice(-2);
+                let day = ("0" + String(today.getDate())).slice(-2);
+                correct_day = year + "." + month + "." + day;
+                reviewContainer.innerHTML += `
+                  <div class="recipe-details-reviews-single">
+                    <img class="recipe-details-reviews-single-image" src="../public/image/reviews/${item["review_image"]}" alt="">
+                    <div class="recipe-details-reviews-single-user">
+                      <div>
+                        <img class="recipe-details-reviews-single-user-image" src="../public/image/default_icons/${item["user_image"]}" alt="">
+                      </div>
+                      <div class="recipe-details-reviews-single-user-name-info">
+                        <div class="recipe-details-reviews-single-user-name">${item["user_name"]}</div>
+                        <div class="recipe-details-reviews-single-user-date">${correct_day}</div>
+                      </div>
+                    </div>
+                    <div class="recipe-details-reviews-single-contents">
+                      ${item["review_content"]}
+                    </div>
+                  </div>
+                `
+              });
+              wrapReviewContainer.appendChild(reviewContainer)
+              ReviewNumberContainer.innerHTML = `${reviewdata.length}件のレビュー`
+            });
+          });
+        });
+      });
+  });
+
+</script>
+
+<%= ERB.new(File.read('./public/components/footer.html.erb'), nil, nil, '_footer_out').result(binding) %>

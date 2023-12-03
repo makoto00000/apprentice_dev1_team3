@@ -1,8 +1,9 @@
 .signup_container {
   width: 600px;
   max-width: 600px;
-  margin: 100px auto;
+  margin: 0 auto;
   text-align: center;
+  padding: 200px 0;
 }
 
 .signup_title {

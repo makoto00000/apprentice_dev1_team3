@@ -2,4 +2,10 @@
 @import url("./pages/header.css");
 @import url("./pages/login.css");
 @import url("./pages/signup.css");
+<<<<<<< HEAD
 @import url("./pages/posts.css");
+=======
+@import url("./pages/recipes.css");
+@import url("./pages/recipe_detail.css");
+@import url("./pages/review_button.css");
+>>>>>>> feature
