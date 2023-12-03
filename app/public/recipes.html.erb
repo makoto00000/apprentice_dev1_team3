@@ -97,8 +97,10 @@
             
             recipeContainer.innerHTML = 
               `<div class="recipes_recipe_image">
-                <img src="./public/image/recipe_images/${item.recipe_image}" alt="">
-                <div class="recipes_recipe_tag"><img src="./public/image/tag_icon.png" alt="">${item.liquor_name}</div>
+                <a href="/detail?recipeId=${item.id}">
+                  <img src="./public/image/recipe_images/${item.recipe_image}" alt="">
+                  <div class="recipes_recipe_tag"><img src="./public/image/tag_icon.png" alt="">${item.liquor_name}</div>
+                </a>
               </div>
               <div class="recipes_recipe_name">${item.recipe_name}</div>`;
             recipesContainer.appendChild(recipeContainer);

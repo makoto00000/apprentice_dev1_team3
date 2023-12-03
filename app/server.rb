@@ -295,7 +295,16 @@ server.mount_proc("/api/review") { |req, res|
     image = req.query['image']
     text = req.query['text']
     recipeId = req.query['recipeId']
-    image = "no_image.png" if image.empty?
+
+    image = "no_image.png" if image == ""
+    
+    # if image != "no_image.png"
+    #     file = req.query['image']
+    #     # filename = file[:filename]
+    #     filepath = File.join("/public/image/reviews/", image)
+    
+    #     File.open(filepath, 'wb') { |f| f.write(file["tempfile"].read) }
+    # end
 
     session_id = req.cookies.find { |c| c.name == 'session_id' }&.value
     
@@ -307,9 +316,9 @@ server.mount_proc("/api/review") { |req, res|
         res.status = 401
         res.body = 'Not logged in'
     end
-    puts image
+    
     # リダイレクト
-    res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/detail?recipeId=#{recipeId}')
+    res.set_redirect(WEBrick::HTTPStatus::SeeOther, "/detail?recipeId=#{recipeId}")
 }
 
 # シャットダウン

@@ -89,8 +89,9 @@
           <div class="modal-review-title">レビュー投稿</div>
           <form action="/api/review" method="post">
             <div class="input-image" >
-              <input class="input-image-contents" for="image" name="image" accept="image/jpeg, image/png" type="file" />
-              <img class="input-select-image" src="../public/image/select_image.png" alt="" />
+              <input class="input-image-contents" for="image" name="image" accept="image/jpeg, image/png" type="file" onchange="previewImage(this)"/>
+              <img id="preview" class="input-select-image" src="../public/image/select_image.png" alt="" />
+               <%# <img id="preview" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" style="max-width:200px;"> %>
             </div>
             <input class="input-text" name="text" type="text" placeholder="レビュー(必須)" />
             <input type="hidden" id="recipeId" name="recipeId" value="" />
@@ -101,13 +102,24 @@
           </form>
         </div>
       </div>
-      <button class="button_write button_more_review">もっと見る</button>
+      <%# <button class="button_write button_more_review">もっと見る</button> %>
     </div>
   </div>
 
 </main>
 
 <script>
+  function previewImage(obj)
+  {
+    let fileReader = new FileReader();
+    fileReader.onload = (function() {
+      console.log(fileReader.result)
+      document.getElementById('preview').src = fileReader.result;
+    });
+
+    fileReader.readAsDataURL(obj.files[0]);
+  }
+
   let modal = document.getElementById("myModal");
   let btn = document.getElementById("modalBtn");
   let span = document.getElementsByClassName("close")[0];

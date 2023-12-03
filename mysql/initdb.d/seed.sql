@@ -175,7 +175,7 @@ INSERT INTO reviews (id, content, image, user_id, recipe_id) VALUES
 (17, 'おしゃれな雰囲気が漂う中、黒胡椒のアクセントが光る', 'no_image.png', 17, 34),
 (18, 'シンプルながらも奥深い味わいで、毎日でも飲みたくなる。', 'review12.jpg', 18, 34),
 (19, '料理との相性が抜群で、食事中にもぴったりな一杯。', 'no_image.png', 19, 34),
-(20, '黒胡椒のピリッとした辛さが、リフレッシュ感を与えてくれます。', 'no_image.jpg', 20, 34);
+(20, '黒胡椒のピリッとした辛さが、リフレッシュ感を与えてくれます。', 'no_image.png', 20, 34);
 
 
 INSERT INTO ingredients (id, order_num, name, amount, recipe_id) VALUES
