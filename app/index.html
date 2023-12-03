@@ -29,41 +29,41 @@
           <input type="text" id="search_recipe_input">
           <div class="place_holder" id="place_holder"><img src="./public/image/search_icon.png" alt=""><a>レシピを検索</a></div>
         </div>
-        <div class="login_button" id="login_button">
+        <div class="header_login_button" id="header_login_button" style="display: block;">
           <button onclick="location.href='/login'">
             <img src="./public/image/login_icon.png" alt="login_icon">
             <a>ログイン</a>
           </button>
         </div>
-        <div class="user_icon" id="user_icon" onclick="Auth.logoutUser()">
+        <div class="user_icon" id="user_icon" onclick="Auth.logoutUser()" style="display: none;">
           <img src="" alt="user icon" id="user_icon_image">
         </div>
       </div>
     </header> 
     <div class="hover_menu" id="kinds">
       <div class="categories">
-        <div class="category"><img src="./public/image/wine_icon.png" alt=""><a>ワイン</a></div>
-        <div class="category"><img src="./public/image/beer_icon.png" alt=""><a>ビール</a></div>
-        <div class="category"><img src="./public/image/japanese_sake_icon.png" alt=""><a>日本酒</a></div>
-        <div class="category"><img src="./public/image/shochu_icon.png" alt=""><a>焼酎</a></div>
-        <div class="category"><img src="./public/image/whiskey_icon.png" alt=""><a>ウイスキー</a></div>
-        <div class="category"><img src="./public/image/brandy_icon.png" alt=""><a>ブランデー</a></div>
-        <div class="category"><img src="./public/image/gin_icon.png" alt=""><a>ジン</a></div>
-        <div class="category"><img src="./public/image/vodka_icon.png" alt=""><a>ウォッカ</a></div>
-        <div class="category"><img src="./public/image/rum_icon.png" alt=""><a>ラム</a></div>
-        <div class="category"><img src="./public/image/tequila_icon.png" alt=""><a>テキーラ</a></div>
-        <div class="category"><img src="./public/image/fruit_wine_icon.png" alt=""><a>果実酒</a></div>
-        <div class="category"><img src="./public/image/other_liqueur_icon.png" alt=""><a>リキュール</a></div>
+        <div class="category"><a href="/recipes?liquorId=1"><img src="./public/image/wine_icon.png" alt="">ワイン</a></div>
+        <div class="category"><a href="/recipes?liquorId=2"><img src="./public/image/beer_icon.png" alt="">ビール</a></div>
+        <div class="category"><a href="/recipes?liquorId=3"><img src="./public/image/japanese_sake_icon.png" alt=""><a>日本酒</a></div>
+        <div class="category"><a href="/recipes?liquorId=4"><img src="./public/image/shochu_icon.png" alt="">焼酎</a></div>
+        <div class="category"><a href="/recipes?liquorId=5"><img src="./public/image/whiskey_icon.png" alt="">ウイスキー</a></div>
+        <div class="category"><a href="/recipes?liquorId=6"><img src="./public/image/brandy_icon.png" alt="">ブランデー</a></div>
+        <div class="category"><a href="/recipes?liquorId=7"><img src="./public/image/gin_icon.png" alt="">ジン</a></div>
+        <div class="category"><a href="/recipes?liquorId=8"><img src="./public/image/vodka_icon.png" alt="">ウォッカ</a></div>
+        <div class="category"><a href="/recipes?liquorId=9"><img src="./public/image/rum_icon.png" alt="">ラム</a></div>
+        <div class="category"><a href="/recipes?liquorId=10"><img src="./public/image/tequila_icon.png" alt="">テキーラ</a></div>
+        <div class="category"><a href="/recipes?liquorId=11"><img src="./public/image/fruit_wine_icon.png" alt="">果実酒</a></div>
+        <div class="category"><a href="/recipes?liquorId=12"><img src="./public/image/other_liquor_icon.png" alt="">リキュール</a></div>
       </div>
     </div>
     <div class="hover_menu" id="tastes">
       <div class="categories">
-        <div class="category"><img src="./public/image/sweet_taste_image.png" alt=""><a>甘口</a></div>
-        <div class="category"><img src="./public/image/soda_image.png" alt=""><a>炭酸</a></div>
-        <div class="category"><img src="./public/image/fruity_image.png" alt=""><a>フルーティー</a></div>
-        <div class="category"><img src="./public/image/spicy_image.png" alt=""><a>辛口</a></div>
-        <div class="category"><img src="./public/image/citrus_image.png" alt=""><a>シトラス</a></div>
-        <div class="category"><img src="./public/image/bitter_image.png" alt=""><a>ビター</a></div>
+        <div class="category"><a href="/recipes?tasteId=1"><img src="./public/image/sweet_taste_image.png" alt="">甘口</a></div>
+        <div class="category"><a href="/recipes?tasteId=2"><img src="./public/image/spicy_image.png" alt="">辛口</a></div>
+        <div class="category"><a href="/recipes?tasteId=3"><img src="./public/image/soda_image.png" alt="">炭酸</a></div>
+        <div class="category"><a href="/recipes?tasteId=4"><img src="./public/image/citrus_image.png" alt="">フルーティー</a></div>
+        <div class="category"><a href="/recipes?tasteId=5"><img src="./public/image/whiskey_icon.png" alt="">シトラス</a></div>
+        <div class="category"><a href="/recipes?tasteId=6"><img src="./public/image/bitter_image.png" alt="">ビター</a></div>
       </div>
     </div>
   
@@ -75,87 +75,89 @@
         お酒はもっと面白くなる
       </h2>
     </div>
-    <div class="about">
-      <div class="about-title">アレンジレシピとは？</div>
-      <div class="about-contents">
-        <div class="about-content">
-          お酒には飲む人の数だけ、こだわりの飲み方、オリジナルの飲み方があります。
-        </div>
-        <br>
-        <div class="about-content">
-          LIQ+RECIPEは、ユーザー登録をすることで
+    <div class="top-container">
+      <div class="about">
+        <div class="about-title">アレンジレシピとは？</div>
+        <div class="about-contents">
+          <div class="about-content">
+            お酒には飲む人の数だけ、こだわりの飲み方、オリジナルの飲み方があります。
+          </div>
           <br>
-          オリジナルレシピを投稿し、シェアすることできます。
-        </div>
-      </div>
-    </div>
-    <div class="can">
-      <div class="can-title">
-        <span class="can-title-red">LIQ+RECEPE</span>
-        <span class="can-title-black">でできること</span>
-      </div>
-      <div class="can-card">
-        <h3 class="can-card-title">
-          <span class="can-card-title-contents">1.</span>
-          <span class="can-card-title-contents">レシピの投稿</span>
-        </h3>
-        <div class="can-card-contents">
-          <img class="can-card-contents-image" src="./public/image/post_recipe.png" alt="">
-          <div class="can-card-contents-text">
+          <div class="about-content">
             LIQ+RECIPEは、ユーザー登録をすることで
             <br>
             オリジナルレシピを投稿し、シェアすることできます。
-            <br>
-            <br>
-            あなただけの楽しみ方、みんなと共有しませんか？
           </div>
         </div>
       </div>
-      <div class="can-card">
-        <h3 class="can-card-title">
-          <span class="can-card-title-contents">2.</span>
-          <span class="can-card-title-contents">レシピの検索</span>
-        </h3>
-        <div class="can-card-contents">
-          <img class="can-card-contents-image" src="./public/image/search_recipe.png" alt="">
-          <div class="can-card-contents-text">
-            みんなが投稿したアレンジレシピを、
-            <br>
-            あなたの好みに合わせて探すことができます。
-            <br>
-            <br>
-            ここでしか出会えない、
-            <br>
-            ユニークなアレンジを楽しもう。
+      <div class="can">
+        <div class="can-title">
+          <span class="can-title-red">LIQ+RECEPE</span>
+          <span class="can-title-black">でできること</span>
+        </div>
+        <div class="can-card">
+          <h3 class="can-card-title">
+            <span class="can-card-title-contents">1.</span>
+            <span class="can-card-title-contents">レシピの投稿</span>
+          </h3>
+          <div class="can-card-contents">
+            <img class="can-card-contents-image" src="./public/image/post_recipe.png" alt="">
+            <div class="can-card-contents-text">
+              LIQ+RECIPEは、ユーザー登録をすることで
+              <br>
+              オリジナルレシピを投稿し、シェアすることできます。
+              <br>
+              <br>
+              あなただけの楽しみ方、みんなと共有しませんか？
+            </div>
+          </div>
+        </div>
+        <div class="can-card">
+          <h3 class="can-card-title">
+            <span class="can-card-title-contents">2.</span>
+            <span class="can-card-title-contents">レシピの検索</span>
+          </h3>
+          <div class="can-card-contents">
+            <img class="can-card-contents-image" src="./public/image/search_recipe.png" alt="">
+            <div class="can-card-contents-text">
+              みんなが投稿したアレンジレシピを、
+              <br>
+              あなたの好みに合わせて探すことができます。
+              <br>
+              <br>
+              ここでしか出会えない、
+              <br>
+              ユニークなアレンジを楽しもう。
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="find">
-      <div class="find-contents">
-        <div>
-          <div class="find-content">
-            LIQ+LECIPEで、お酒の新しい楽しみ方を発見
-          </div>
-          <br>
-          <div class="find-content">
-            さあ、ユーザーの創造力が詰まったレシピを見つけよう。
+      <div class="find">
+        <div class="find-contents">
+          <div>
+            <div class="find-content">
+              LIQ+LECIPEで、お酒の新しい楽しみ方を発見
+            </div>
+            <br>
+            <div class="find-content">
+              さあ、ユーザーの創造力が詰まったレシピを見つけよう。
+            </div>
           </div>
         </div>
-      </div>
-      <div class="find-register">
-        <img class="find-register-logo" src="./public/image/logo_illust.png" alt="">
-        <div class="find-register-url">会員登録はこちら</div>
-      </div>
-      <div class="find-images">
-        <img class="find-image" src="./public/image/top/lime-alchol.png" alt="">
-        <img class="find-image" src="./public/image/top/blood-orange-alchol.png" alt="">
-        <img class="find-image" src="./public/image/top/lemon-alchol.png" alt="">
-        <img class="find-image" src="./public/image/top/blueberry-alchol.png" alt="">
-        <img class="find-image" src="./public/image/top/coke-alchol.png" alt="">
-        <img class="find-image" src="./public/image/top/berry-alchol.png" alt="">
-        <img class="find-image" src="./public/image/top/smoke-alchol.png" alt="">
-        <img class="find-image" src="./public/image/top/tea-alchol.png" alt="">
+        <div class="find-register">
+          <img class="find-register-logo" src="./public/image/logo_illust.png" alt="">
+          <div class="find-register-url">会員登録はこちら</div>
+        </div>
+        <div class="find-images">
+          <img class="find-image" src="./public/image/top/lime-alchol.png" alt="">
+          <img class="find-image" src="./public/image/top/blood-orange-alchol.png" alt="">
+          <img class="find-image" src="./public/image/top/lemon-alchol.png" alt="">
+          <img class="find-image" src="./public/image/top/blueberry-alchol.png" alt="">
+          <img class="find-image" src="./public/image/top/coke-alchol.png" alt="">
+          <img class="find-image" src="./public/image/top/berry-alchol.png" alt="">
+          <img class="find-image" src="./public/image/top/smoke-alchol.png" alt="">
+          <img class="find-image" src="./public/image/top/tea-alchol.png" alt="">
+        </div>
       </div>
     </div>
     <script src="../public/module/auth.js"></script>
