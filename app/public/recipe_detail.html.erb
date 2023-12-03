@@ -113,7 +113,6 @@
   {
     let fileReader = new FileReader();
     fileReader.onload = (function() {
-      console.log(fileReader.result)
       document.getElementById('preview').src = fileReader.result;
     });
 
@@ -167,7 +166,6 @@
       fetch(`/api/recipe-detail?recipeId=${recipeId}`)
       .then(response => response.json())
       .then(recipedata => {
-        console.log(recipedata)
         fetch(`/api/recipe-detail?ingredientId=${recipeId}`)
         .then(response => response.json())
         .then(ingredientdata => {
@@ -237,7 +235,6 @@
             fetch(`/api/recipe-detail?reviewId=${recipeId}`)
             .then(response => response.json())
             .then(reviewdata => {
-              console.log(reviewdata)
               reviewdata.forEach((item,index) => {
                 today = new Date(item["review_created_at"])
                 let year = today.getFullYear();
