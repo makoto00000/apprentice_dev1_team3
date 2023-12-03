@@ -38,10 +38,11 @@ server.mount_proc("/signup") { |req, res|
     res.body << template.result( binding )
 }
 
-<<<<<<< HEAD
 server.mount_proc("/posts") { |req, res| 
     template = ERB.new( File.read('./public/posts.html.erb') )
-=======
+    res.body << template.result( binding )
+}
+
 server.mount_proc("/recipes") { |req, res| 
     template = ERB.new( File.read('./public/recipes.html.erb') )
     res.body << template.result( binding )
@@ -49,7 +50,6 @@ server.mount_proc("/recipes") { |req, res|
 
 server.mount_proc("/detail") { |req, res| 
     template = ERB.new( File.read('./public/recipe_detail.html.erb') )
->>>>>>> feature
     res.body << template.result( binding )
 }
 
@@ -150,16 +150,51 @@ server.mount_proc("/api/signup") { |req, res|
 }
 
 server.mount_proc("/api/posts") { |req, res|
-    # フォームからデータを受け取る
-    name = req.query['recipe_name']
-    summary = req.query['recipe_explanation']
-    point = req.query['tips']
-    user_id = req.query['user']
-    liquor_id = req.query['alcohol']
-    taste_id = req.query['taste']
-    image = req.query['photo'] 
 
-    db_client.query("INSERT INTO LiqRecipe.recipes (name, summary, point, user_id, liquor_id, taste_id, image) VALUES ('#{name}', '#{summary}', '#{point}', '#{user_id}', '#{liquor_id}', '#{taste_id}', '#{image}')")
+    session_id = req.cookies.find { |c| c.name == 'session_id' }&.value
+    if sessions[session_id]
+        user = sessions[session_id]["user"]
+    end
+    # フォームからデータを受け取る
+    # id = req.query['id']
+    # name = req.query['name']
+    # summary = req.query['summary']
+    # point = req.query['point']
+    # recipe_image = req.query['image']
+    # random_recipe_image_name = req.query['randomRecipeImageName']
+    # random_procedure_image_names = req.query['randomProcedureImageNames']
+    # liquor_id = req.query['liquor_id']
+    # taste_id = req.query['taste_id']
+    user_id = user["id"]
+    # ingredients = req.query['ingredients']
+    # procedures = req.query['procedures']
+    form_data = JSON.parse(req.body)
+
+    result = db_client.query("SELECT MAX(id) AS id FROM LiqRecipe.recipes;")
+    recipe_id = JSON.parse(result.to_a.to_json)[0]['id'].to_i + 1
+    
+
+
+    client.query("INSERT INTO LiqRecipe.recipes (name, summary, point, image, user_id, liquor_id, taste_id) VALUES ('#{form_data['name']}', '#{form_data['summary']}', '#{form_data['point']}', '#{form_data['image']}', #{form_data['user_id']}, #{form_data['liquor_id']}, #{form_data['taste_id']})")
+
+    # db_client.query("INSERT INTO LiqRecipe.recipes (name, summary, point, image, user_id, liquor_id, taste_id) VALUES ('aaa', 'aaa', 'aaa', 'vodka_berry.jpg', #{user_id}, 1, 1)")
+    
+    form_data['ingredients'].each do |ingredient|
+    # db_client.query("INSERT INTO LiqRecipe.ingredients (order_num, name, amount, recipe_id) VALUES (1, 'ワイン', '10ml', 35)")
+
+    db_client.query("INSERT INTO procedures (order_num, procedure_text, image, recipe_id) VALUES (#{procedure['order_num']}, '#{procedure['procedure_text']}', '#{procedure['image']}', #{recipe_id})")
+
+    end
+
+    # 手順テーブルにデータを挿入
+    form_data['procedures'].each do |procedure|
+    db_client.query("INSERT INTO LiqRecipe.procedures (order_num, procedure_text, image, recipe_id) VALUES (1, 'グラスに入れる', 'no_image.png', 35)")
+    end
+
+    res.set_redirect(WEBrick::HTTPStatus::SeeOther, "/detail?recipeId=")
+
+
+}
 
 # ログインしているユーザー情報を取得
 server.mount_proc '/api/get_current_user' do |req, res|
