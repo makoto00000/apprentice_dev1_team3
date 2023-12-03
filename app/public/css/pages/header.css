@@ -199,3 +199,7 @@
 main {
 padding-top: 100px;
 }
+
+.login_button button img {
+  width: 100%;
+}

@@ -8,15 +8,15 @@
 }
 
 .banner h2 {
-  font-size: 300%;
-  font-weight: 1%;
+  font-size: 40px;
+  font-weight: bold;
   font-family: 'Open Sans Hebrew Condensed';
   line-height: 150%;
   letter-spacing: 0.4em;
   position: absolute;
   color: white;
-  left: 8%;
-  top: 40%;
+  left: 7%;
+  top: 35%;
 }
 
 .about {
@@ -49,13 +49,19 @@
   font-size: 80%;
 }
 
+.can {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .can-title {
   font-weight: 700;
-  margin: 10% 0 5% 38%;
   font-family: 'Noto Sans JP';
   line-height: 180%;
   letter-spacing: 0.2em;
   font-size: 40px;
+  display: inline-block;
 }  
 
 .can-title-red {
@@ -70,13 +76,14 @@
 .can-card {
   width: 75%;
   height: 70%;
-  box-shadow: 0px 1px 13px rgba(0,0,0,0.1);
+  box-shadow: 0px 1px 20px rgba(0,0,0,0.1);
   background: #fff;
   padding: 1%;
   padding-bottom:5%;
   color: #333333;
-  margin: 5% 0 5% 13%;
   font-size: 30px;
+  margin-top: 100px;
+  border-radius: 20px;
 }
 
 .can-card-title {
@@ -173,4 +180,11 @@
   width: 20%;
   height: 25%;
   margin: 1% 1%;
+}
+
+.eye_catch_logo {
+  position: absolute;
+  right: 50px;
+  bottom: 50px;
+  width: 150px !important;
 }
