@@ -1,0 +1,260 @@
+<%= ERB.new(File.read('./public/components/header.html.erb'), nil, nil, '_footer_out').result(binding) %>
+
+<main>
+    <div class="post-content wrapper">  
+        <h1 class="post-page-title">レシピを投稿</h1>
+        <form action="/api/posts" method="post" id="posts_recipe"> <!--action確認-->
+            <!-- レシピ名入力 -->
+            <label for="">レシピ名（必須）</label>
+            <input class="input-text" type="text" id="posts_recipe_name" name="name" required>
+            <br>
+
+            <!-- ベースのお酒入力 -->
+            <label for="liquor_id">ベースのお酒（必須）</label>
+            <br>
+            <select class="select-tub" id="alcohol" name="liquor_id">
+                <option value="" disabled selected>▼選択してください</option>
+                <option value="1">ワイン</option>
+                <option value="2">ビール</option>
+                <option value="3">日本酒</option>
+                <option value="4">焼酎</option>
+                <option value="5">ウイスキー</option>
+                <option value="6">ブランデー</option>
+                <option value="7">ジン</option>
+                <option value="8">ウォッカ</option>
+                <option value="9">ラム</option>
+                <option value="10">テキーラ</option>
+                <option value="11">果実酒</option>
+                <option value="12">リキュール</option>
+            </select>
+            <br>
+
+            <!-- お酒の味わいや風味入力 -->
+            <label for="taste_id">お酒の味わいや風味（必須）</label>
+            <br>
+            <select class="select-tub" id="taste" name="taste_id">
+                <option value="" disabled selected>▼選択してください</option>
+                <option value="1">甘口</option>
+                <option value="2">辛口</option>
+                <option value="3">炭酸</option>
+                <option value="4">フルーティ</option>
+                <option value="5">シトラス</option>
+                <option value="6">ビター</option>
+            </select>
+            <br>
+
+            <!-- レシピ説明入力 -->
+            <label for="summary">レシピ説明（必須）</label>
+            <br>
+            <textarea class="recipe-textarea" type="text" id="recipe_name" name="summary" required></textarea>
+            <br>
+
+            <!-- 完成写真入力 -->
+            <p class="photo-title">完成写真(必須)</p>
+            <label for="photo" id="customLabel" class="custom-file-upload">
+            <img src="../public/image/path_to_camera_icon.png" alt="カメラアイコン">
+            <span>画像を選択</span>
+            </label>
+            <input type="file" id="photo" name="image" accept="image/*" style="display: none;">
+            <div id="photoPreview"></div>
+
+            <script>
+            const photoInput = document.getElementById('photo');
+            const photoPreview = document.getElementById('photoPreview');
+            const customLabel = document.getElementById('customLabel');
+            
+            photoInput.addEventListener('change', (event) => {
+                const selectedFile = event.target.files[0];
+                
+                if (selectedFile && selectedFile.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = (e) => {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        photoPreview.innerHTML = '';
+                        photoPreview.appendChild(img);
+            
+                        // カメラアイコンとテキストを非表示にする
+                        customLabel.style.display = 'none';
+                    };
+            
+                    reader.readAsDataURL(selectedFile);
+                } else {
+                    alert('画像ファイルを選択してください。');
+                    photoInput.value = '';
+                    photoPreview.innerHTML = '';
+                    customLabel.style.display = 'block'; // ファイル選択が解除された場合、アイコンとテキストを再表示
+                }
+            });
+            
+            </script>
+
+            <!-- 材料分量入力フォーム -->
+            <p class="post-ingredient">材料（必須）</p>
+            <table id="ingredient-table">
+                <thead>
+                    <tr>
+                        <th>材料</th>
+                        <th>分量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="ingredients_name" placeholder="例）ウィスキー"></td>
+                        <td><input type="text" name="ingredients_amount" placeholder="例）30ml"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="post-ingredient_button" type="button" onclick="addRow_ingredient()">行を追加</button>
+        
+            <script>
+                function addRow_ingredient() { //テーブルに新しい行を追加
+                    var table = document.getElementById("ingredient-table").getElementsByTagName('tbody')[0];
+                    var newRow = table.insertRow(table.rows.length);
+        
+                    var cell1 = newRow.insertCell(0);
+                    var cell2 = newRow.insertCell(1);
+                    var cell3 = newRow.insertCell(2);
+        
+                    cell1.innerHTML = '<input type="text" name="ingredients_name" placeholder="材料名">';
+                    cell2.innerHTML = '<input type="text" name="ingredients_amount" placeholder="分量">';
+                    cell3.innerHTML = '<button onclick="removeRow(this)">✖️</button>';
+                }
+        
+                function removeRow(button) { // ✖️ ボタンがクリックされた行を削除
+                    var row = button.parentNode.parentNode;
+                    row.parentNode.removeChild(row);
+                }
+            </script>
+
+            <!-- 作り方入力フォーム -->
+            <p class="post-recipe_title">作り方(必須)</p>
+            <table id="recipe">
+                <thead>
+                    <tr>
+                        <th>番号</th>
+                        <th>作り方を入力</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="row-1">
+                        <td>1</td> <!-- 初期行の番号 -->
+                        <td><input type="text" name="procedures_procedure_text" placeholder="作り方を入力"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="post-recipe_button" type="button" onclick="addRow()">行を追加</button>
+
+            <script>
+                var nextRowNumber = 2; // 初期の行番号
+            
+                function addRow() {
+                    var table = document.getElementById("recipe").getElementsByTagName("tbody")[0];
+                    var newRow = table.insertRow(table.rows.length);
+            
+                    var cell1 = newRow.insertCell(0);
+                    var cell2 = newRow.insertCell(1);
+                    var cell3 = newRow.insertCell(2);
+            
+                    cell1.innerHTML = nextRowNumber; // 現在の行番号をセット
+                    cell2.innerHTML = '<input type="text" name="procedures_procedure_text" placeholder="作り方を入力">';
+                    cell3.innerHTML = '<button onclick="removeRow(this)">✖️</button>';
+            
+                    nextRowNumber++; // 次の行番号を更新
+                }
+        
+                function removeRow(button) { // ✖️ ボタンがクリックされた行を削除
+                    var row = button.parentNode.parentNode;
+                    row.parentNode.removeChild(row);
+                }
+            </script>
+
+            <!-- コツ・ポイント入力フォーム -->
+            <br>
+            <label for="tips">コツ・ポイント</label>
+            <br>
+            <textarea class="textarea-tips" type="text" id="tips" name="point"></textarea>
+            <br>
+            <!-- 登録ボタン -->
+            <input class="registration-buttom" type="submit" value="レシピ登録">
+        </form>
+    </div>
+</body>
+
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const postsRecipe = document.getElementById('posts_recipe');
+
+        postsRecipe.addEventListener('submit', async function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            const formData = new FormData(postsRecipe);
+
+        // 材料を配列に変換
+        const ingredients = [];
+        document.querySelectorAll('input[name="ingredients_name"]').forEach((ingredientInput, index) => {
+            const quantityInput = document.querySelectorAll('input[name="ingredients_amount"]')[index];
+            ingredients.push({ order_num: index + 1, name: ingredientInput.value, amount: quantityInput.value });
+        });
+
+        // 手順を配列に変換
+        const procedures = [];
+        document.querySelectorAll('input[name="procedures_procedure_text"]').forEach((procedureInput, index) => {
+            procedures.push({ order_num: index + 1, procedure_text: procedureInput.value });
+        });
+
+        // フォームデータに材料と手順を追加
+        formData.append('ingredients', JSON.stringify(ingredients));
+        formData.append('procedures', JSON.stringify(procedures));
+
+
+        const photoInput = document.getElementById('photo');
+        const selectedFile = photoInput.files[0];
+
+        function generateRandomFileName() {
+            return Math.random().toString(36).substring(7);
+        }
+
+        if (selectedFile) {
+            拡張子を取得
+            const fileExtension = selectedFile.name.split('.').pop();
+            
+            ランダムなファイル名を生成
+            const randomFileName = generateRandomFileName() + '.' + fileExtension;
+
+            フォームデータにファイル名を追加
+            formData.append('randomFileName', randomFileName);
+        }
+
+                            console.log(...formData.entries())
+
+            try {
+            const response = await fetch('/api/posts', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                const responseData = await response.json();
+                data = JSON.parse(JSON.stringify(responseData, null, 2))
+
+                throw new Error('Network response was not ok');
+            } else {
+                // window.location.href = `/detail?recipeId=${response.id}`;
+            }
+
+            // レスポンスを表示または処理する
+            } catch (error) {
+            console.error('Fetch error:', error);
+            }
+        });
+    });
+</script>
+
+<%= ERB.new(File.read('./public/components/footer.html.erb'), nil, nil, '_footer_out').result(binding) %>
