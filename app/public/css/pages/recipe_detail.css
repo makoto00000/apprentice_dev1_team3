@@ -80,13 +80,13 @@
 }
 
 .recipe-details-make-procedure-image{
-  width: 80px;
-  height:120px;
+  width: 100px;
+  /* height:120px; */
   display:block;
 }
 
 .recipe-details-make-procedure-image-none{
-  width: 80px;
+  width: 100px;
   /* height:120px; */
   display:block;
 }
