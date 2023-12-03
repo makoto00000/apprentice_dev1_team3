@@ -1,0 +1,232 @@
+.wrapper {
+    width: 80%;
+    max-width: 400px;
+    margin: auto;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* inputのスタイリング */
+.input-text,
+.select-tub {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #dcdcdc;
+}
+.textarea-tips,
+.recipe-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #dcdcdc;
+    height: 180px;
+}
+
+/* 送信ボタン */
+.registration-buttom {
+    font-size: small;
+    color: white;
+    background: #E82401;
+    border-radius: 5px;
+    padding: 10px 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.3s ease;
+}
+
+.registration-buttom:hover {
+    transform: scale(1.05);
+}
+
+/* 画像を選択 */
+.custom-file-upload {
+    display: inline-block;
+    padding: 80px 150px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+/* 選択した画像が見切れないようにする */
+#photoPreview img {
+    max-width: 100%;   
+    max-height: 400px;  
+    object-fit: contain;
+    height: auto;
+    width: auto;
+}
+
+/* カメラ位置調整 */
+.custom-file-upload img {
+    width: 60px; /* 画像のサイズを調整 */
+    height: auto;
+}
+
+.custom-file-upload span {
+    display: block;
+}
+
+/* 画像を選択 title */
+.photo-title {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: medium;
+    padding-bottom: 20px;
+}
+
+/* タイトルのスタイリング */
+.post-page-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 70px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+/* フォーム要素のスタイリング */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: medium;
+}
+
+/* 材料分量入力フォームのスタイル */
+.post-ingredient {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#ingredient-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#ingredient-table th,
+#ingredient-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#ingredient-table th {
+    background-color: #f8f8f8;
+}
+
+#ingredient-table input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* 行を追加ボタンのスタイル */
+.post-ingredient_button {
+    background-color: #E82401;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post-ingredient_button:hover {
+    transform: scale(1.05);
+}
+
+/* 削除ボタンのスタイル */
+#ingredient-table button {
+    color: #f44336;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#ingredient-table button:hover {
+    color: #d32f2f;
+}
+
+
+/* 材料分量入力フォームのスタイル */
+.post-recipe_title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#recipe {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#recipe th,
+#recipe td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#recipe th {
+    background-color: #f8f8f8;
+}
+
+#recipe input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* 行を追加ボタンのスタイル */
+.post-recipe_button {
+    background-color: #E82401;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post-recipe_button:hover {
+    transform: scale(1.05);
+}
+
+/* 削除ボタンのスタイル */
+#ingredient-table button {
+    color: #f44336;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#ingredient-table button:hover {
+    color: #d32f2f;
+}

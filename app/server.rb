@@ -38,6 +38,11 @@ server.mount_proc("/signup") { |req, res|
     res.body << template.result( binding )
 }
 
+server.mount_proc("/posts") { |req, res| 
+    template = ERB.new( File.read('./public/posts.html.erb') )
+    res.body << template.result( binding )
+}
+
 
 # ログイン機能
 
@@ -121,6 +126,18 @@ server.mount_proc("/api/signup") { |req, res|
         res.set_redirect(WEBrick::HTTPStatus::SeeOther, '/')
     end
 }
+
+server.mount_proc("/api/posts") { |req, res|
+    # フォームからデータを受け取る
+    name = req.query['recipe_name']
+    summary = req.query['recipe_explanation']
+    point = req.query['tips']
+    user_id = req.query['user']
+    liquor_id = req.query['alcohol']
+    taste_id = req.query['taste']
+    image = req.query['photo'] 
+
+    db_client.query("INSERT INTO LiqRecipe.recipes (name, summary, point, user_id, liquor_id, taste_id, image) VALUES ('#{name}', '#{summary}', '#{point}', '#{user_id}', '#{liquor_id}', '#{taste_id}', '#{image}')")
 
 # ログインしているユーザー情報を取得
 server.mount_proc '/api/get_current_user' do |req, res|
